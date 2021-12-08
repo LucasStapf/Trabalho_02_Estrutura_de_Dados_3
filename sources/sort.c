@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../headers/sort.h"
+#include "../headers/constantes.h"
 
 // bubble otimizado
 void sortStringLinkedList(linkedlist *l) {
@@ -48,6 +49,30 @@ void sortStringLinkedList(linkedlist *l) {
             }
         }
 
+        if (sorted == TRUE) return;
+    }
+}
+
+
+void sortStringArray(char strings[][STR_MAX_SIZE], int size) {
+
+    if (strings == NULL || size == 0) return;
+    int sorted = TRUE;
+
+
+    char strAux[STR_MAX_SIZE];
+
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - 1 - i; j++) {
+            if (strcmp(strings[j], strings[j + 1]) > 0) {
+
+                sorted = FALSE;
+                strcpy(strAux, strings[j]);
+
+                strcpy(strings[j], strings[j + 1]);
+                strcpy(strings[j + 1], strAux);
+            }
+        }
         if (sorted == TRUE) return;
     }
 }

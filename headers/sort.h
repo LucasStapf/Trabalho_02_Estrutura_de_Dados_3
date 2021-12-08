@@ -10,8 +10,10 @@
 #ifndef SORT_H
 #define SORT_H
 
+#include "constantes.h"
 #include "linkedlist.h"
 
 void sortStringLinkedList(linkedlist *l);
+void sortStringArray(char strings[][STR_MAX_SIZE], int size);
 
 #endif
