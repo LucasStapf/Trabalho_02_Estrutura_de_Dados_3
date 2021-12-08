@@ -83,23 +83,39 @@ int addElementLinkedList(linkedlist *l, void *data) {
 }
 
 node* getElementLinkedList(linkedlist l, int index) {
-
     if (index < 0 || index >= l.size) return NULL;
-
     node *aux = l.head;
     for(int i = 0; i < index; i++) aux = aux->next;
-
     return aux;
+}
+
+int hasDataLinkedList(linkedlist l, void *data, int (*comparator)()) {
+    node *aux = l.head;
+    for (int i = 0; i < l.size; i++) {
+        if (comparator(aux->data, data) == 0) return i;
+        else aux = aux->next;
+    }
+    return -1; // Elemento não encontrado.
+}
+
+
+int hasNodeLinkedList(linkedlist l, node n, int (*comparator)()) {
+    node *aux = l.head;
+    for (int i = 0; i < l.size; i++) {
+        if (comparator(*aux, n) == 0) return i;
+        else aux = aux->next;
+    }
+    return -1;
 }
 
 
 /**
  * @brief Funcao que adiciona apenas strings em uma lista encadeada. Strings iguais nao serao
  * adicionadas.
- * 
+ *
  * @param l Lista onde a string sera adicionada.
  * @param str String a ser adicionada.
- * 
+ *
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
@@ -125,23 +141,23 @@ void addStringLinkedList(linkedlist *l, char *str) {
     l->head = n;
     l->size++;
     return;
-  
+
   } else {
 
     node *aux = l->head;
 
     while(aux != NULL) {
-      
+
       if(strcmp(aux->data, str) == 0) {
         free(n->data);
         free(n);
         return;
-      
+
       } else if(aux->next == NULL) {
         aux->next = n;
         l->size++;
         return;
-      
+
       } else aux = aux->next;
     }
   }
@@ -163,7 +179,6 @@ int hasStringElementLinkedList(linkedlist *l, char *str) {
 
     return -1; // Elemento não encontrado.
 }
-
 
 void printStringLinkedList(linkedlist l) {
 

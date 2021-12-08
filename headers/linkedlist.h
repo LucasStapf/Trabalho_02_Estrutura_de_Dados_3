@@ -29,6 +29,8 @@ void createLinkedList(linkedlist *l);
 void deleteLinkedList(linkedlist *l);
 int addElementLinkedList(linkedlist *l, void *data);
 node* getElementLinkedList(linkedlist l, int index);
+int hasDataLinkedList(linkedlist l, void *data, int (*comparator)());
+int hasNodeLinkedList(linkedlist l, node n, int (*comparator)());
 
 void addStringLinkedList(linkedlist *l, char *str);
 int hasStringElementLinkedList(linkedlist *l, char *str);
