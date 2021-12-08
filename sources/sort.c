@@ -9,11 +9,20 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <malloc.h>
 #include "../headers/sort.h"
 #include "../headers/constantes.h"
 
-
-void sortLinkedList(linkedlist *l, int(*comparator)(void*, void*)) {
+/**
+ * Esta função utiliza o algoritmo do bubble-sort otimizado para ordenar uma lista encadeada.
+ * É necessário passar como argumento a função que será utilizada para comparar os elementos da lista.
+ * @param l lista a ser ordenada.
+ * @param comparator função que compara dois elementos da lista. Se o primeiro elemento for
+ * maior que o segundo, a função deve retornar um valor maior que zero.
+ * Se for igual ao segundo, a função deve retorna zero.
+ * Se for menor que o segundo, a função deve retornar um valor menor que zero.
+ */
+void sortLinkedList(linkedlist *l, int(*comparator)()) {
 
     if (l == NULL || l->size == 0) return;
 
@@ -49,6 +58,38 @@ void sortLinkedList(linkedlist *l, int(*comparator)(void*, void*)) {
             }
         }
 
+        if (sorted == TRUE) return;
+    }
+}
+
+/**
+ * Ordena um array utilizando o algoritmo de bubble-sort otimizado.
+ * Utiliza uma função de comparação que deve ser passada como argumento para poder realizar as comparações
+ * entre os elementos do array.
+ * @param array vetor a ser ordenado.
+ * @param size tamanho do vetor.
+ * @param comparator função que compara dois elementos do array. Se o primeiro elemento for
+ * maior que o segundo, a função deve retornar um valor maior que zero.
+ * Se for igual ao segundo, a função deve retorna zero.
+ * Se for menor que o segundo, a função deve retornar um valor menor que zero.
+ */
+void sortArray(void **array, unsigned int size, int(*comparator)()) {
+
+    if (array == NULL || size == 0) return;
+    int sorted = TRUE;
+
+    void *aux;
+
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - 1 - i; j++) {
+            if (comparator(array[j], array[j + 1]) > 0) {
+
+                sorted = FALSE;
+                aux = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = aux;
+            }
+        }
         if (sorted == TRUE) return;
     }
 }
