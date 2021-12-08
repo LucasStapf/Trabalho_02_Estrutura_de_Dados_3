@@ -82,7 +82,7 @@ int addElementLinkedList(linkedlist *l, void *data) {
   }
 }
 
-node* getElementLinkedList(linkedlist l, int index) {
+node* getNodeLinkedList(linkedlist l, int index) {
     if (index < 0 || index >= l.size) return NULL;
     node *aux = l.head;
     for(int i = 0; i < index; i++) aux = aux->next;
@@ -184,7 +184,7 @@ void printStringLinkedList(linkedlist l) {
 
   node *aux = l.head;
   while (aux != NULL) {
-    printf("%s\n", (char *)aux->data);
+    printf("%s ", (char *)aux->data);
     aux = aux->next;
   }
 }

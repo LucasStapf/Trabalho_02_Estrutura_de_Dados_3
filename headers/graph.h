@@ -27,19 +27,29 @@ typedef struct vertex {
 
 
 typedef struct graph {
-    int size;
-    vertex *vertices;
+    unsigned int maxSize;
+    unsigned int size;
+    vertex **vertices;
 } graph;
 
 int vertexCompare(vertex v1, vertex v2);
 int adjVertexCompare(adjacentVertex v1, adjacentVertex v2);
 
-int hasVertex(graph g, vertex v);
-int hasAdjVertex(vertex v, adjacentVertex adjV);
+int hasVertex(graph g, char *nomeEstacao);
+int hasAdjVertex(vertex v, char *nomeProxEstacao);
 
-int criarGrafo(graph *g, int tamanho);
-int inserirAresta(graph *g, char *verticeOrigem, char* verticeDestino, int distancia, char *nomeLinha);
+int createGraph(graph *g, int maxSize);
+int insertEdge(graph *g, char *verticeOrigem, char* verticeDestino, int distancia, char *nomeLinha);
 
+/* Prints ok */
+void printGraph(graph g);
+void printVertex(vertex v);
+void printAdjVertex(adjacentVertex adjV);
+
+void insertVertex(graph *g, vertex *v);
+void insertAdjVertex(vertex *v, adjacentVertex *adjV);
+
+void updateNomesLinhas(adjacentVertex *adjV, char *nomeLinha);
 
 
 #endif
