@@ -12,6 +12,47 @@
 #include "../headers/sort.h"
 #include "../headers/constantes.h"
 
+
+void sortLinkedList(linkedlist *l, int(*comparator)(void*, void*)) {
+
+    if (l == NULL || l->size == 0) return;
+
+    int sorted = TRUE;
+
+    node *prevNode, *node, *aux;
+
+    for (int i = 0; i < l->size - 1; i++) {
+
+        prevNode = NULL;
+        node = l->head;
+
+        for (int j = 0; j < l->size - 1 - i; j++) {
+
+            if(comparator(node->data, node->next->data) > 0) {
+
+                sorted = FALSE;
+
+                aux = node->next;
+                node->next = node->next->next;
+                aux->next = node;
+
+                if (j == 0) l->head = prevNode = aux;
+                else prevNode->next = aux;
+
+                prevNode = aux;
+
+            } else {
+
+                prevNode = node;
+                node = node->next;
+
+            }
+        }
+
+        if (sorted == TRUE) return;
+    }
+}
+
 // bubble otimizado
 void sortStringLinkedList(linkedlist *l) {
 

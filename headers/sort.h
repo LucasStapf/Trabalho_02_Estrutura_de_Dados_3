@@ -13,6 +13,7 @@
 #include "constantes.h"
 #include "linkedlist.h"
 
+void sortLinkedList(linkedlist *l, int(*comparator)(void*, void*));
 void sortStringLinkedList(linkedlist *l);
 void sortStringArray(char strings[][STR_MAX_SIZE], int size);
 

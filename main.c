@@ -1,17 +1,22 @@
 
 #include <stdio.h>
+#include <string.h>
 #include "headers/constantes.h"
 #include "headers/linkedlist.h"
 #include "headers/sort.h"
 
 int main() {
-	
-	char strs[][STR_MAX_SIZE] = {{"epaminondas"}, {"bilongas"}, {"seila"}, {"aoaaaa"}};
 
-    for(int i = 0; i < 4; i++) printf("%s\n", strs[i]);
+    linkedlist l;
+    createLinkedList(&l);
 
-    sortStringArray(strs, 4);
+    addStringLinkedList(&l, "uva");
+    addStringLinkedList(&l, "banana");
+    addStringLinkedList(&l, "abacaxi");
 
-    for(int i = 0; i < 4; i++) printf("%s\n", strs[i]);
+    printStringLinkedList(l);
 
+    sortLinkedList(&l, &strcmp);
+
+    printStringLinkedList(l);
 }
