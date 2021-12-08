@@ -10,18 +10,18 @@
 #ifndef GRAFO_H
 #define GRAFO_H
 
-#include "constantes.h"
+#include "constants.h"
 #include "linkedlist.h"
 
 
 typedef struct adjacentVertex {
-    char nomeProxEstacao[STR_MAX_SIZE];
+    char nomeProxEstacao[MAX_SIZE_STR];
     int distancia;
     linkedlist nomesLinhas;
 } adjacentVertex;
 
 typedef struct vertex {
-    char nomeEstacao[STR_MAX_SIZE];
+    char nomeEstacao[MAX_SIZE_STR];
     linkedlist verticesAdjacentes;
 } vertex;
 

@@ -15,7 +15,7 @@
  */
 enum command {
 
-  create = 7, 
+  createGraph = 7,
   selectData, 
   selectDataWhere, 
   deleteData, 
@@ -26,12 +26,7 @@ enum command {
 
 void cmdSelector();
 
-void createTable(char *inputfilename, char *outputfilename);
-void selectDataTable(char *inputfilename);
-void selectDataWhereTable(char *inputfilename, int number);
-void deleteDataTable(char *inputfilename, int number);
-void insertDataTable(char *inputfilename, int number);
-void updateDataTable(char *inputfilename, int number);
+
 
 void binarioNaTela(char *nomeArquivoBinario);
 
