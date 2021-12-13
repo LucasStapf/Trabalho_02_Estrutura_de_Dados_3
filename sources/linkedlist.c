@@ -1,5 +1,5 @@
 /**
- * Trabalho 01 - Estrutura de Dados III
+ * Trabalho 02 - Estrutura de Dados III
  *
  * Integrantes do grupo:
  *
