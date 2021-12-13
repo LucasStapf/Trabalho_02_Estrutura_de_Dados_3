@@ -57,17 +57,9 @@ int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distanci
 
     if (indexV == -1) { // Vértice de origem não encontrado.
 
-        vertex *v = malloc(sizeof(vertex));
-        strcpy(v->nomeEstacao, verticeOrigem);
-        createLinkedList(&v->verticesAdjacentes);
-
-        adjacentVertex *adjV = malloc(sizeof(adjacentVertex));
-        strcpy(adjV->nomeProxEstacao, verticeDestino);
-        adjV->distancia = distancia;
-        createLinkedList(&adjV->nomesLinhas);
-
+        vertex *v = createVertex(verticeOrigem);
+        adjacentVertex *adjV = createAdjcentVertex(verticeDestino, distancia);
         addStringLinkedList(&adjV->nomesLinhas, (void*) nomeLinha);
-
         insertAdjVertex(v, adjV);
         insertVertex(g, v);
 
@@ -79,13 +71,8 @@ int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distanci
 
         if (indexAdjV == -1) { // Não existe aresta entre os vértices passados.
 
-            adjacentVertex *adjV = malloc(sizeof(adjacentVertex));
-            strcpy(adjV->nomeProxEstacao, verticeDestino);
-            adjV->distancia = distancia;
-            createLinkedList(&adjV->nomesLinhas);
-
+            adjacentVertex *adjV = createAdjcentVertex(verticeDestino, distancia);
             addStringLinkedList(&adjV->nomesLinhas, (void*) nomeLinha);
-
             insertAdjVertex(v, adjV);
 
         } else { // Existe aresta
@@ -133,6 +120,22 @@ void printVertex(vertex v) {
 void printAdjVertex(adjacentVertex adjV) {
     printf("%s %d ", adjV.nomeProxEstacao, adjV.distancia);
     printStringLinkedList(adjV.nomesLinhas);
+}
+
+
+vertex *createVertex(char *nomeEstacao) {
+    vertex *v = malloc(sizeof(vertex));
+    strcpy(v->nomeEstacao, nomeEstacao);
+    createLinkedList(&v->verticesAdjacentes);
+    return v;
+}
+
+adjacentVertex *createAdjcentVertex(char *nomeEstacao, int distancia) {
+    adjacentVertex *adjV = malloc(sizeof(adjacentVertex));
+    strcpy(adjV->nomeProxEstacao, nomeEstacao);
+    adjV->distancia = distancia;
+    createLinkedList(&adjV->nomesLinhas);
+    return adjV;
 }
 
 /**

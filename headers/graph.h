@@ -39,13 +39,15 @@ int hasVertex(graph g, char *nomeEstacao);
 int hasAdjVertex(vertex v, char *nomeProxEstacao);
 
 int createGraph(graph *g, int maxSize);
-int insertEdge(graph *g, char *verticeOrigem, char* verticeDestino, int distancia, char *nomeLinha);
+vertex *createVertex(char *nomeEstacao);
+adjacentVertex *createAdjcentVertex(char *nomeEstacao, int distancia);
 
 /* Prints ok */
 void printGraph(graph g);
 void printVertex(vertex v);
 void printAdjVertex(adjacentVertex adjV);
 
+int insertEdge(graph *g, char *verticeOrigem, char* verticeDestino, int distancia, char *nomeLinha);
 void insertVertex(graph *g, vertex *v);
 void insertAdjVertex(vertex *v, adjacentVertex *adjV);
 
