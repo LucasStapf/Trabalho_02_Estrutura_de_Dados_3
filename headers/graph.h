@@ -53,5 +53,6 @@ void insertAdjVertex(vertex *v, adjacentVertex *adjV);
 
 void updateNomesLinhas(adjacentVertex *adjV, char *nomeLinha);
 
+void dijkstraAlgorithm(graph g, char *nomeEstacao);
 
 #endif

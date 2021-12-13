@@ -172,3 +172,28 @@ void updateNomesLinhas(adjacentVertex *adjV, char *nomeLinha) {
     sortLinkedList(&adjV->nomesLinhas, strcmp);
 }
 
+void dijkstraAlgorithm(graph g, char *nomeEstacao) {
+
+    vertex **S = malloc(sizeof(vertex*) * g.size);
+    int sizeOfS = 0;
+    vertex **V = malloc(sizeof(vertex*) * g.size);
+    int sizeOfV = g.size;
+
+    int *D = malloc(sizeof(int) * g.size);
+
+    for (int i = 0; i < g.size; i++) {
+        D[i] = INT_MAX / 2; // distancia "infinita"
+        V[i] = g.vertices[i];
+    }
+
+    int index = hasVertex(g, nomeEstacao);
+    S[index] = g.vertices[index];
+    D[index] = 0;
+    sizeOfS = 1;
+
+    while (sizeOfS < g.size) {
+
+        linkedlist adjList = S[index]->verticesAdjacentes;
+    }
+}
+
