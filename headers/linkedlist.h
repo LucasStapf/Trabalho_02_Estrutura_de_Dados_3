@@ -10,10 +10,8 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-
 typedef struct node node;
 typedef struct linkedlist linkedlist;
-
 
 struct node {
   void *data;
@@ -24,6 +22,15 @@ struct linkedlist {
   int size;
   node *head;
 };
+
+typedef struct iterator {
+    linkedlist list;
+    node *current;
+} iterator;
+
+void createIterator(linkedlist l, iterator *i);
+node* getNextNode(iterator i);
+int hasNextNode(iterator i);
 
 void createLinkedList(linkedlist *l);
 void deleteLinkedList(linkedlist *l);

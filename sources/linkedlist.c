@@ -189,6 +189,11 @@ void printStringLinkedList(linkedlist l) {
   }
 }
 
+void createIterator(linkedlist l, iterator *i) {
+    i->list = l;
+    i->current = l.head;
+}
+
 
 //// bubble otimizado
 //void sortStringLinkedList(linkedlist *l) {
