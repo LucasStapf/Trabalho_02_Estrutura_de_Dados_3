@@ -99,45 +99,12 @@ int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distanci
             }
         }
     }
-
-//    if (g == NULL) return ERROR;
-//
-//    int indexV = hasVertex(*g, verticeOrigem);
-//
-//    if (indexV != -1) { // Já possui o vértice
-//
-//        int indexAdj = hasAdjVertex(g->vertices[indexV], verticeDestino);
-//
-//        if (indexAdj != -1) { // Já possui o vértice adj.
-//
-//            node *n = getNodeLinkedList(g->vertices[indexV].verticesAdjacentes, indexAdj);
-//            adjacentVertex *adjVertex = (adjacentVertex*) n->data;
-//            if (hasDataLinkedList(adjVertex->nomesLinhas, nomeLinha, strcmp) == -1) {
-//                addStringLinkedList(&adjVertex->nomesLinhas, nomeLinha);
-//                sortLinkedList(&adjVertex->nomesLinhas, strcmp);
-//            }
-//        }
-//
-//    } else { // Não possui a aresta
-//
-//        int i;
-//        for (i = 0; i < g->size; i++) if (g->vertices[i].nomeEstacao[0] == '\0') break;
-//
-//        strcpy(g->vertices[i].nomeEstacao, verticeOrigem);
-//
-//        createLinkedList(&g->vertices[i].verticesAdjacentes);
-//        adjacentVertex *adjVertex = malloc(sizeof(adjVertex));
-//        strcpy(adjVertex->nomeProxEstacao, verticeDestino);
-//        adjVertex->distancia = distancia;
-//        addElementLinkedList(&g->vertices[i].verticesAdjacentes, adjVertex);
-//
-//        createLinkedList(&adjVertex->nomesLinhas);
-//        addStringLinkedList(&adjVertex->nomesLinhas, nomeLinha);
-//
-//        sortArray((void**) &g->vertices, g->size, vertexCompare);
-//    }
 }
 
+/**
+ * Imprime o grafo conforme especificação do trabalho.
+ * @param g grafo a ser mostrado na tela.
+ */
 void printGraph(graph g) {
     for (int i = 0; i < g.size; i++) {
         printVertex(*g.vertices[i]);
@@ -145,6 +112,10 @@ void printGraph(graph g) {
     }
 }
 
+/**
+ * Imprime um vértice conforme especificação do trabalho.
+ * @param v vértice a ser mostrado na tela.
+ */
 void printVertex(vertex v) {
     printf("%s ", v.nomeEstacao);
     node *n = v.verticesAdjacentes.head;
@@ -155,21 +126,44 @@ void printVertex(vertex v) {
     }
 }
 
+/**
+ * Imprime um vértice adjacente conforme a especificação do trabalho.
+ * @param adjV vértice adjcente a ser mostrado na tela.
+ */
 void printAdjVertex(adjacentVertex adjV) {
     printf("%s %d ", adjV.nomeProxEstacao, adjV.distancia);
     printStringLinkedList(adjV.nomesLinhas);
 }
 
+/**
+ * Insere um novo vértice no grafo.
+ * OBS: Não verifica se o vértice já se encontra no grafo ou não.
+ * @param g grafo onde o vértice será inserido.
+ * @param v vértice a ser inserido.
+ */
 void insertVertex(graph *g, vertex *v) {
     g->vertices[g->size] = v;
     g->size++;
+    sortArray((void**) g->vertices, g->size, vertexCompare);
 }
 
+/**
+ * Insere um vértice adjacente à lista de vértices adjacentes de um determinado vértice.
+ * OBS: Não verifica se o vértice adjacente já está presente na lista ou não.
+ * @param v vértice onde será inserido o vértice adjacente.
+ * @param adjV vértice adjcente a ser inserido.
+ */
 void insertAdjVertex(vertex *v, adjacentVertex *adjV) {
     addElementLinkedList(&v->verticesAdjacentes, (void*) adjV);
     sortLinkedList(&v->verticesAdjacentes, adjVertexCompare);
 }
 
+/**
+ * Adiciona a uma lista de nome de linhas de um novo elemento.
+ * OBS: Não verifica se o nome da linha já está presente na lista ou não.
+ * @param adjV vértice onde a nova linha será adicionada.
+ * @param nomeLinha nome da linha a ser adicionada.
+ */
 void updateNomesLinhas(adjacentVertex *adjV, char *nomeLinha) {
     addStringLinkedList(&adjV->nomesLinhas, nomeLinha);
     sortLinkedList(&adjV->nomesLinhas, strcmp);
