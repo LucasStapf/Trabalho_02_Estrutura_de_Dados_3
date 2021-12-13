@@ -1,5 +1,5 @@
 /**
- * Trabalho 01 - Estrutura de Dados III
+ * Trabalho 02 - Estrutura de Dados III
  *
  * Integrantes do grupo:
  *
@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../headers/linkedlist.h"
-#include "../headers/constantes.h"
+#include "../headers/constants.h"
 
 /**
  * @brief Inicializa com os valores padrao uma lista encadeada
@@ -126,7 +126,7 @@ void addStringLinkedList(linkedlist *l, char *str) {
   node *n = (node*) malloc(sizeof(node));
   if(n == NULL) return;
 
-  n->data = malloc(sizeof(char) * STR_MAX_SIZE);
+  n->data = malloc(sizeof(char) * MAX_SIZE_STR);
 
   if (n->data == NULL) {
     free(n);

@@ -7,9 +7,7 @@
  * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
  */
 
-#include <stdio.h>
 #include "../headers/display.h"
-#include "../headers/constantes.h"
 
 
 /**

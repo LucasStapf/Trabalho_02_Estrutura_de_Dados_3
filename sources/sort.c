@@ -11,7 +11,7 @@
 #include <string.h>
 #include <malloc.h>
 #include "../headers/sort.h"
-#include "../headers/constantes.h"
+#include "../headers/constants.h"
 
 /**
  * Esta função utiliza o algoritmo do bubble-sort otimizado para ordenar uma lista encadeada.
@@ -136,13 +136,13 @@ void sortStringLinkedList(linkedlist *l) {
 }
 
 
-void sortStringArray(char strings[][STR_MAX_SIZE], int size) {
+void sortStringArray(char strings[][MAX_SIZE_STR], int size) {
 
     if (strings == NULL || size == 0) return;
     int sorted = TRUE;
 
 
-    char strAux[STR_MAX_SIZE];
+    char strAux[MAX_SIZE_STR];
 
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - 1 - i; j++) {
