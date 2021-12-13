@@ -116,8 +116,6 @@ void createGraphFromBIN(char *filename) {
                                0, "Integração");
                 }
             }
-        } else {
-
         }
     }
 
