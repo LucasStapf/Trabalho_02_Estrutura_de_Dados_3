@@ -104,11 +104,7 @@ void createGraphFromBIN(char *filename) {
                 insertEdge(&g, dr.nomeEstacao, dr_return.nomeEstacao,
                            dr.distProxEstacao, dr.nomeLinha);
             } else if(hasVertex(g, dr.nomeEstacao) == -1) {
-
-                vertex *v = malloc(sizeof(vertex));
-                strcpy(v->nomeEstacao, dr.nomeEstacao);
-                createLinkedList(&v->verticesAdjacentes);
-
+                vertex *v = createVertex(dr.nomeEstacao);
                 insertVertex(&g, v);
             }
 
