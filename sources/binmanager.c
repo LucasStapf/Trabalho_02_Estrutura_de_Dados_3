@@ -103,19 +103,20 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr) {
 }
 
 /**
- * @brief Esta funcao busca registros no arquivo de dados BIN com base nos campos nao vazios
- * do DataRegister passado. Quando um registro eh encontrado, ele sera printado na tela.
- * OBS: O arquivo ja deve estar aberto para a leitura no modo binario.
+ * @brief Esta funcao busca um registro no arquivo de dados BIN com base nos campos não vazios
+ * do DataRegister passado. Quando um registro é encontrado, a função para e o registro é salvo no dr_return.
+ * OBS: O arquivo já deve estar aberto para a leitura no modo binário.
  * 
- * @param f FILE do arquivo binario de leitura.
- * @param dr Variavel que contem os campos de busca do registro.
+ * @param f FILE do arquivo binário de leitura.
+ * @param dr_search Variável que contem os campos de busca do registro.
+ * @param dr_return Variável que contém o registro lido do arquivo.
  * @return REGISTER_NOT_FOUND caso nao tenha encontrado o registro ou REGISTER_FOUND caso o 
  * registro tenha sido encontrado. 
  *
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
-int findDataRegistersBIN(FILE *f, DataRegister *dr) {
+int findDataRegisterBIN(FILE *f, DataRegister *dr_search, DataRegister *dr_return) {
 
     HeaderRegister hr;
     readHeaderRegisterBIN(f, &hr);
@@ -129,20 +130,20 @@ int findDataRegistersBIN(FILE *f, DataRegister *dr) {
     int ret;
 
     do {
+
         ret = readDataRegisterBIN(f, &r);
 
         if (ret == END_OF_FILE_BIN) break;
         if (ret == REMOVED) continue;
         else {
 
-            if (compareRegister(*dr, r) == EQUIVALENT_REGISTERS) {
+            if (compareRegister(*dr_search, r) == EQUIVALENT_REGISTERS) {
                 found = REGISTER_FOUND;
-                printRegister(r);
-                printf("\n");
+                copyDataRegister(dr_return, &r);
             }
         }
 
-    } while (ret != END_OF_FILE_BIN);
+    } while (ret != END_OF_FILE_BIN && found == REGISTER_NOT_FOUND);
 
     return found;
 }

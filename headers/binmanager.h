@@ -16,7 +16,7 @@
 void readHeaderRegisterBIN(FILE *f, HeaderRegister *rc);
 
 int readDataRegisterBIN(FILE *f, DataRegister *dr);
-int findDataRegistersBIN(FILE *f, DataRegister *dr);
+int findDataRegisterBIN(FILE *f, DataRegister *dr_search, DataRegister *dr_return);
 
 int printFileBIN(char *binName);
 int statusFileBIN(HeaderRegister hr);
