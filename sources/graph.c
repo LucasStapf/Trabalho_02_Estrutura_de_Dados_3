@@ -66,7 +66,7 @@ int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distanci
         adjV->distancia = distancia;
         createLinkedList(&adjV->nomesLinhas);
 
-        addElementLinkedList(&adjV->nomesLinhas, (void*) nomeLinha);
+        addStringLinkedList(&adjV->nomesLinhas, (void*) nomeLinha);
 
         insertAdjVertex(v, adjV);
         insertVertex(g, v);
@@ -84,7 +84,7 @@ int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distanci
             adjV->distancia = distancia;
             createLinkedList(&adjV->nomesLinhas);
 
-            addElementLinkedList(&adjV->nomesLinhas, (void*) nomeLinha);
+            addStringLinkedList(&adjV->nomesLinhas, (void*) nomeLinha);
 
             insertAdjVertex(v, adjV);
 
