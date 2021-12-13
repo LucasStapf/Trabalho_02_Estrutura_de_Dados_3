@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include "graph.h"
 #include "linkedlist.h"
 #include "sort.h"
@@ -186,7 +187,7 @@ void dijkstraAlgorithm(graph g, char *nomeEstacao) {
         V[i] = g.vertices[i];
     }
 
-    int index = hasVertex(g, nomeEstacao);
+    int index = hasVertex(g, nomeOrigem);
     S[index] = g.vertices[index];
     D[index] = 0;
     sizeOfS = 1;

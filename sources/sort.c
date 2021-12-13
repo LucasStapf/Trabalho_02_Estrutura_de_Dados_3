@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "../headers/sort.h"
 #include "../headers/constants.h"
 

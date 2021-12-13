@@ -194,6 +194,32 @@ void createIterator(linkedlist l, iterator *i) {
     i->current = l.head;
 }
 
+node* getNextNode(iterator i) {
+    node *n = i.current;
+    i.current = i.current->next;
+    return n;
+}
+
+int hasNextNode(iterator i) {
+    if (i.current != NULL) return TRUE;
+    else return FALSE;
+}
+
+int addElementFirstLinkedList(linkedlist *l, void *data) {
+
+    if (l == NULL) return ERROR;
+
+    if (l->size == 0) addElementLinkedList(l, data);
+    else {
+        node *n = malloc(sizeof(node));
+        n->data = data;
+        n->next = l->head;
+        l->head = n;
+    }
+
+    return SUCCESS;
+}
+
 
 //// bubble otimizado
 //void sortStringLinkedList(linkedlist *l) {
