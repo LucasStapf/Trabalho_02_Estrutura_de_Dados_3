@@ -8,12 +8,11 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "../headers/linkedlist.h"
-#include "../headers/constants.h"
-#include "../headers/commands.h"
-#include "../headers/display.h"
+#include <malloc.h>
+#include "commands.h"
+#include "binmanager.h"
+#include "graph.h"
 
 
 /**
@@ -42,7 +41,7 @@
 //
 //    switch(cmd) {
 //
-//        case createGraph:
+//        case CREATE_GRAPH:
 //            createGraphFromBIN(filename);
 //            break;
 //
@@ -81,4 +80,50 @@
 
 void createGraphFromBIN(char *filename) {
 
+    FILE *f = fopen(filename, "rb");
+    if (f == NULL) {
+        return; // arrumar
+    }
+
+    HeaderRegister hr;
+    readHeaderRegisterBIN(f, &hr);
+
+    graph g;
+    createGraph(&g, hr.nroEstacoes);
+
+    DataRegister dr, dr_search, dr_return;
+
+    while (!feof(f)) {
+
+        if (readDataRegisterBIN(f, &dr) == NOT_REMOVED) {
+
+            setEmptyDataRegister(&dr_search);
+            dr_search.codEstacao = dr.codProxEstacao;
+
+            if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
+                insertEdge(&g, dr.nomeEstacao, dr_return.nomeEstacao,
+                           dr.distProxEstacao, dr.nomeLinha);
+            } else if(hasVertex(g, dr.nomeEstacao) == -1) {
+
+                vertex *v = malloc(sizeof(vertex));
+                strcpy(v->nomeEstacao, dr.nomeEstacao);
+                createLinkedList(&v->verticesAdjacentes);
+
+                insertVertex(&g, v);
+            }
+
+            dr_search.codEstacao = dr.codEstIntegra;
+
+            if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
+                if (strcmp(dr.nomeEstacao, dr_return.nomeEstacao) != 0) {
+                    insertEdge(&g, dr.nomeEstacao, dr_return.nomeEstacao,
+                               0, "Integração");
+                }
+            }
+        } else {
+
+        }
+    }
+
+    printGraph(g);
 }

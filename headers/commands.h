@@ -15,7 +15,7 @@
  */
 enum command {
 
-  createGraph = 7,
+  CREATE_GRAPH = 7,
   selectData, 
   selectDataWhere, 
   deleteData, 
