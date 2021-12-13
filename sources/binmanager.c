@@ -118,8 +118,11 @@ int readDataRegisterBIN(FILE *f, DataRegister *dr) {
  */
 int findDataRegisterBIN(FILE *f, DataRegister *dr_search, DataRegister *dr_return) {
 
+    long seek_cur = ftell(f);
+
     HeaderRegister hr;
     readHeaderRegisterBIN(f, &hr);
+
 
     if (statusFileBIN(hr) == FILE_NOT_CONSISTENT) return FILE_NOT_CONSISTENT;
 
@@ -145,6 +148,7 @@ int findDataRegisterBIN(FILE *f, DataRegister *dr_search, DataRegister *dr_retur
 
     } while (ret != END_OF_FILE_BIN && found == REGISTER_NOT_FOUND);
 
+    fseek(f, seek_cur, SEEK_SET);
     return found;
 }
 
