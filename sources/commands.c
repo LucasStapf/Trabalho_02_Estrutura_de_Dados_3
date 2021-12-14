@@ -88,8 +88,8 @@ void createGraphFromBIN(char *filename) {
     HeaderRegister hr;
     readHeaderRegisterBIN(f, &hr);
 
-    graph g;
-    createGraph(&g, hr.nroEstacoes);
+    graph *g = malloc(sizeof(graph));
+    createGraph(g, hr.nroEstacoes);
 
     DataRegister dr, dr_search, dr_return;
 
@@ -101,11 +101,11 @@ void createGraphFromBIN(char *filename) {
             dr_search.codEstacao = dr.codProxEstacao;
 
             if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
-                insertEdge(&g, dr.nomeEstacao, dr_return.nomeEstacao,
+                insertEdge(g, dr.nomeEstacao, dr_return.nomeEstacao,
                            dr.distProxEstacao, dr.nomeLinha);
-            } else if(hasVertex(g, dr.nomeEstacao) == -1) {
+            } else if(hasVertex(*g, dr.nomeEstacao) == -1) {
                 vertex *v = createVertex(dr.nomeEstacao);
-                insertVertex(&g, v);
+                insertVertex(g, v);
             }
 
             dr_search.codEstacao = dr.codEstIntegra;
@@ -119,5 +119,7 @@ void createGraphFromBIN(char *filename) {
         }
     }
 
-    printGraph(g);
+//    printGraph(*g);
+    return g;
 }
+

@@ -10,6 +10,8 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
+#include "graph.h"
+
 /**
  * @brief Constantes para identificao dos comandos digitados.
  */
@@ -26,7 +28,7 @@ enum command {
 
 void cmdSelector();
 
-void createGraphFromBIN(char *filename);
+graph* createGraphFromBIN(char *filename);
 
 
 void binarioNaTela(char *nomeArquivoBinario);
