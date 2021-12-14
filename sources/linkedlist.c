@@ -194,14 +194,14 @@ void createIterator(linkedlist l, iterator *i) {
     i->current = l.head;
 }
 
-node* getNextNode(iterator i) {
-    node *n = i.current;
-    i.current = i.current->next;
+node* getNextNode(iterator *i) {
+    node *n = i->current;
+    if (i->current != NULL) i->current = i->current->next;
     return n;
 }
 
-int hasNextNode(iterator i) {
-    if (i.current != NULL) return TRUE;
+int hasNextNode(iterator *i) {
+    if (i->current != NULL) return TRUE;
     else return FALSE;
 }
 

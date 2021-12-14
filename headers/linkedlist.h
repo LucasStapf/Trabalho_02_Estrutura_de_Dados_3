@@ -29,8 +29,8 @@ typedef struct iterator {
 } iterator;
 
 void createIterator(linkedlist l, iterator *i);
-node* getNextNode(iterator i);
-int hasNextNode(iterator i);
+node* getNextNode(iterator *i);
+int hasNextNode(iterator *i);
 
 void createLinkedList(linkedlist *l);
 void deleteLinkedList(linkedlist *l);
