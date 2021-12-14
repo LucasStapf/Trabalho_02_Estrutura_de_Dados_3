@@ -173,28 +173,75 @@ void updateNomesLinhas(adjacentVertex *adjV, char *nomeLinha) {
     sortLinkedList(&adjV->nomesLinhas, strcmp);
 }
 
-void dijkstraAlgorithm(graph g, char *nomeEstacao) {
+void dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminho, int *distanciaTotal) {
+    
+    typedef struct estruturaAux {
+        int distancia;
+        char *antecessor;
+    } estruturaAux;
 
     vertex **S = malloc(sizeof(vertex*) * g.size);
     int sizeOfS = 0;
     vertex **V = malloc(sizeof(vertex*) * g.size);
     int sizeOfV = g.size;
 
-    int *D = malloc(sizeof(int) * g.size);
+    estruturaAux *D = malloc(sizeof(estruturaAux) * g.size);
 
     for (int i = 0; i < g.size; i++) {
-        D[i] = INT_MAX / 2; // distancia "infinita"
+        D[i].distancia = INT_MAX / 2; // distancia "infinita"
+        D[i].antecessor = NULL;
         V[i] = g.vertices[i];
     }
 
     int index = hasVertex(g, nomeOrigem);
     S[index] = g.vertices[index];
-    D[index] = 0;
-    sizeOfS = 1;
+    sizeOfS++;
+    V[index] = NULL;
+    sizeOfV--;
+    D[index].distancia = 0;
+    D[index].antecessor = NULL;
 
     while (sizeOfS < g.size) {
 
         linkedlist adjList = S[index]->verticesAdjacentes;
+        iterator iter;
+        createIterator(adjList, &iter);
+
+        while (hasNextNode(iter)) {
+            node *n = getNextNode(iter);
+            adjacentVertex *adjV = n->data;
+            int indexAux = hasVertex(g, adjV->nomeProxEstacao);
+            if (adjV->distancia + D[index].distancia < D[indexAux].distancia) {
+                D[indexAux].distancia = adjV->distancia + D[index].distancia;
+                D[indexAux].antecessor = S[index]->nomeEstacao;
+            }
+        }
+
+        int dMin = INT_MAX / 2;
+        int indexAux = 0;
+        for (int j = 0; j < g.size; j++) {
+            if (D[j].distancia < dMin && V[j] != NULL) {
+                dMin = D[j].distancia;
+                indexAux = j;
+            }
+        }
+
+        V[index] = NULL;
+        sizeOfV--;
+        S[index] = g.vertices[index];
+        sizeOfS++;
+
+        index = indexAux;
+    }
+
+    createLinkedList(caminho);
+    distanciaTotal = 0;
+    index = hasVertex(g, nomeDestino);
+
+    while (strcmp(nomeOrigem, g.vertices[index]->nomeEstacao) != 0) {
+        addElementFirstLinkedList(caminho, g.vertices[index]->nomeEstacao);
+        distanciaTotal += D[index].distancia;
+        index = hasVertex(g, D[index].antecessor);
     }
 }
 
