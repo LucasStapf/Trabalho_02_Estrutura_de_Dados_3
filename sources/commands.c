@@ -120,7 +120,7 @@ graph* createGraphFromBIN(char *filename) {
         }
     }
 
-    printGraph(*g);
+//    printGraph(*g);
     return g;
 }
 

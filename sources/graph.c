@@ -15,6 +15,17 @@
 #include "linkedlist.h"
 #include "sort.h"
 
+typedef struct estruturaAux {
+    int distancia;
+    char *antecessor;
+} estruturaAux;
+
+enum COLOR {
+    WHITE,
+    GRAY,
+    BLACK
+};
+
 int vertexCompare(vertex v1, vertex v2) {
     return strcmp(v1.nomeEstacao, v2.nomeEstacao);
 }
@@ -174,11 +185,6 @@ void updateNomesLinhas(adjacentVertex *adjV, char *nomeLinha) {
 }
 
 void dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminho, int *distanciaTotal) {
-    
-    typedef struct estruturaAux {
-        int distancia;
-        char *antecessor;
-    } estruturaAux;
 
     vertex **S = malloc(sizeof(vertex*) * g.size);
     int sizeOfS = 0;
@@ -247,5 +253,60 @@ void dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist 
     }
 
     addElementFirstLinkedList(caminho, g.vertices[hasVertex(g, nomeOrigem)]->nomeEstacao);
+}
+
+void dfsRecursion(graph g, vertex v, enum COLOR *vertices, estruturaAux *est) {
+
+    int i = hasVertex(g, v.nomeEstacao);
+    vertices[i] = GRAY;
+
+    iterator iter;
+    createIterator(v.verticesAdjacentes, &iter);
+
+    while(hasNextNode(&iter) == TRUE) {
+
+        node *nAux = getNextNode(&iter);
+        adjacentVertex *adjVAux = nAux->data;
+        int indexAux = hasVertex(g, adjVAux->nomeProxEstacao);
+
+        if (vertices[indexAux] == WHITE) {
+            est[indexAux].distancia = adjVAux->distancia;
+            est[indexAux].antecessor = v.nomeEstacao;
+            dfsRecursion(g, *g.vertices[indexAux], vertices, est);
+        }
+    }
+    vertices[i] = BLACK;
+}
+
+void dfsAlgorithm(graph g, char *nomeOrigem, linkedlist *caminho, int *distanciaTotal) {
+
+    createLinkedList(caminho);
+    *distanciaTotal = 0;
+
+    enum COLOR *vertices = malloc(sizeof(enum COLOR) * g.size);
+    estruturaAux *est = malloc(sizeof(estruturaAux) * g.size);
+
+    for (int i = 0; i < g.size; i++) {
+        vertices[i] = WHITE;
+        est[i].antecessor = NULL;
+        est[i].distancia = -1;
+    }
+
+    int i = hasVertex(g, nomeOrigem);
+    vertex v = *g.vertices[i];
+
+    dfsRecursion(g, v, vertices, est);
+
+    while (est[i].antecessor != NULL) {
+
+        printf("entrou\n");
+        addElementFirstLinkedList(caminho, g.vertices[i]->nomeEstacao);
+        int aux = i;
+        i = hasVertex(g, g.vertices[hasVertex(g,est[i].antecessor)]->nomeEstacao);
+        est[aux].antecessor = NULL;
+        est[aux].distancia = -1;
+    }
+
+    printf("end\n");
 }
 
