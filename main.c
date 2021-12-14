@@ -9,7 +9,7 @@
 
 int main() {
 
-    createGraphFromBIN("/Users/leonardohannas1998/CLionProjects/Trabalho_02___Estrutura_de_Dados_3/binarios/estacao1.bin");
+    createGraphFromBIN("C:\\Users\\lucas\\CLionProjects\\Trabalho_02___Estrutura_de_Dados_3\\binarios\\estacao1.bin");
 }
 
 

@@ -78,11 +78,12 @@
 //    }
 //}
 
-void createGraphFromBIN(char *filename) {
+graph* createGraphFromBIN(char *filename) {
 
     FILE *f = fopen(filename, "rb");
     if (f == NULL) {
-        return; // arrumar
+        return NULL; // arrumar
+
     }
 
     HeaderRegister hr;
@@ -112,14 +113,14 @@ void createGraphFromBIN(char *filename) {
 
             if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
                 if (strcmp(dr.nomeEstacao, dr_return.nomeEstacao) != 0) {
-                    insertEdge(&g, dr.nomeEstacao, dr_return.nomeEstacao,
+                    insertEdge(g, dr.nomeEstacao, dr_return.nomeEstacao,
                                0, "Integração");
                 }
             }
         }
     }
 
-//    printGraph(*g);
+    printGraph(*g);
     return g;
 }
 
