@@ -255,13 +255,13 @@ void dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist 
     addElementFirstLinkedList(caminho, g.vertices[hasVertex(g, nomeOrigem)]->nomeEstacao);
 }
 
-void dfsRecursion(graph g, vertex v, enum COLOR *vertices, estruturaAux *est) {
+int dfsRecursion(graph g, vertex *vOrigem, vertex *vDestino, enum COLOR *vertices, estruturaAux *est) {
 
-    int i = hasVertex(g, v.nomeEstacao);
+    int i = hasVertex(g, vOrigem->nomeEstacao);
     vertices[i] = GRAY;
 
     iterator iter;
-    createIterator(v.verticesAdjacentes, &iter);
+    createIterator(vOrigem->verticesAdjacentes, &iter);
 
     while(hasNextNode(&iter) == TRUE) {
 
@@ -269,16 +269,25 @@ void dfsRecursion(graph g, vertex v, enum COLOR *vertices, estruturaAux *est) {
         adjacentVertex *adjVAux = nAux->data;
         int indexAux = hasVertex(g, adjVAux->nomeProxEstacao);
 
-        if (vertices[indexAux] == WHITE) {
+        if (vertexCompare(*vDestino, *g.vertices[indexAux]) == TRUE) {
+
             est[indexAux].distancia = adjVAux->distancia;
-            est[indexAux].antecessor = v.nomeEstacao;
-            dfsRecursion(g, *g.vertices[indexAux], vertices, est);
+            est[indexAux].antecessor = vOrigem->nomeEstacao;
+            return TRUE;
+
+        } else if (vertices[indexAux] == WHITE) {
+
+            est[indexAux].distancia = adjVAux->distancia;
+            est[indexAux].antecessor = vOrigem->nomeEstacao;
+            if(dfsRecursion(g, g.vertices[indexAux], vDestino, vertices, est) == TRUE) return TRUE;
         }
     }
+
     vertices[i] = BLACK;
+    return FALSE;
 }
 
-void dfsAlgorithm(graph g, char *nomeOrigem, linkedlist *caminho, int *distanciaTotal) {
+void dfsAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminho, int *distanciaTotal) {
 
     createLinkedList(caminho);
     *distanciaTotal = 0;
@@ -292,21 +301,29 @@ void dfsAlgorithm(graph g, char *nomeOrigem, linkedlist *caminho, int *distancia
         est[i].distancia = -1;
     }
 
-    int i = hasVertex(g, nomeOrigem);
-    vertex v = *g.vertices[i];
+    int iOrigem = hasVertex(g, nomeOrigem);
+    vertex *vOrigem = g.vertices[iOrigem];
 
-    dfsRecursion(g, v, vertices, est);
+    int iDestino = hasVertex(g, nomeDestino);
+    vertex *vDestino = g.vertices[iDestino];
 
-    while (est[i].antecessor != NULL) {
+//    node *n = getNodeLinkedList(vOrigem.verticesAdjacentes, 0);
+//    adjacentVertex *adjV = n->data;
+//
+//    int iAux = hasVertex(g, adjV->nomeProxEstacao);
+//    vertex vAux = *g.vertices[iAux];
 
-        printf("entrou\n");
-        addElementFirstLinkedList(caminho, g.vertices[i]->nomeEstacao);
-        int aux = i;
-        i = hasVertex(g, g.vertices[hasVertex(g,est[i].antecessor)]->nomeEstacao);
+    dfsRecursion(g, vOrigem, vDestino, vertices, est);
+
+    while (est[iDestino].antecessor != NULL) {
+
+        addElementFirstLinkedList(caminho, g.vertices[iDestino]->nomeEstacao);
+        int aux = iDestino;
+        iDestino = hasVertex(g, est[iDestino].antecessor);
         est[aux].antecessor = NULL;
         est[aux].distancia = -1;
     }
 
-    printf("end\n");
+    addElementFirstLinkedList(caminho, g.vertices[iOrigem]->nomeEstacao);
 }
 

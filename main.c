@@ -12,7 +12,7 @@ int main() {
     graph *g = createGraphFromBIN("C:\\Users\\lucas\\CLionProjects\\Trabalho_02___Estrutura_de_Dados_3\\binarios\\estacao1.bin");
     linkedlist path;
     int distancia = 0;
-    dfsAlgorithm(*g, "Paraiso", &path, &distancia);
+    dfsAlgorithm(*g, "Paraiso", "Paraiso", &path, &distancia);
 
     printStringLinkedList(path);
 }
