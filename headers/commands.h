@@ -18,8 +18,8 @@
 enum command {
 
   CREATE_GRAPH = 7,
-  selectData, 
-  selectDataWhere, 
+  SHORTEST_PATH,
+  CYCLIC_PATH,
   deleteData, 
   insertData, 
   updateData
@@ -28,7 +28,7 @@ enum command {
 
 void cmdSelector();
 
-graph* createGraphFromBIN(char *filename);
+graph* createGraphFromBIN(char *filename, int directedGraph);
 
 
 void binarioNaTela(char *nomeArquivoBinario);

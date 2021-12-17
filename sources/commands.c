@@ -21,64 +21,66 @@
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
-//void cmdSelector() {
-//
-//    char inputstr[MAX_SIZE_STR];
-//    char *str;
-//
-//    fgets(inputstr, MAX_SIZE_STR, stdin);
-//
-//    char filename[MAX_SIZE_STR], destinationfilename[MAX_SIZE_STR];
-//    int cmd;
-//    int number;
-//
-//    eraseCRLF(inputstr);
-//
-//    str = strtok(inputstr, " ");
-//    cmd = atoi(str);
-//    str = strtok(NULL, " ");
-//    strncpy(filename, str, MAX_SIZE_STR);
-//
-//    switch(cmd) {
-//
-//        case CREATE_GRAPH:
-//            createGraphFromBIN(filename);
-//            break;
-//
-////        case selectData:
-////            selectDataTable(filename);
-////            break;
-////
-////        case selectDataWhere:
-////            str = strtok(NULL, " ");
-////            number = atoi(str);
-////            selectDataWhereTable(filename, number);
-////            break;
-////
-////        case deleteData:
-////            str = strtok(NULL, " ");
-////            number = atoi(str);
-////            deleteDataTable(filename, number);
-////            break;
-////
-////        case insertData:
-////            str = strtok(NULL, " ");
-////            number = atoi(str);
-////            insertDataTable(filename, number);
-////            break;
-////
-////        case updateData:
-////            str = strtok(NULL, " ");
-////            number = atoi(str);
-////            updateDataTable(filename, number);
-////            break;
-//
-//        default:
-//            break;
-//    }
-//}
+void cmdSelector() {
 
-graph* createGraphFromBIN(char *filename) {
+    char inputstr[MAX_SIZE_STR];
+    char *str;
+
+    fgets(inputstr, MAX_SIZE_STR, stdin);
+
+    char filename[MAX_SIZE_STR], destinationfilename[MAX_SIZE_STR];
+    int cmd;
+    int number;
+
+    eraseCRLF(inputstr);
+
+    str = strtok(inputstr, " ");
+    cmd = atoi(str);
+    str = strtok(NULL, " ");
+    strncpy(filename, str, MAX_SIZE_STR);
+
+
+
+    switch(cmd) {
+
+        case CREATE_GRAPH:
+            createGraphFromBIN(filename, TRUE);
+            break;
+
+        case SHORTEST_PATH:
+            selectDataTable(filename);
+            break;
+
+        case CYCLIC_PATH:
+            str = strtok(NULL, " ");
+            number = atoi(str);
+            selectDataWhereTable(filename, number);
+            break;
+
+//        case deleteData:
+//            str = strtok(NULL, " ");
+//            number = atoi(str);
+//            deleteDataTable(filename, number);
+//            break;
+//
+//        case insertData:
+//            str = strtok(NULL, " ");
+//            number = atoi(str);
+//            insertDataTable(filename, number);
+//            break;
+//
+//        case updateData:
+//            str = strtok(NULL, " ");
+//            number = atoi(str);
+//            updateDataTable(filename, number);
+//            break;
+
+        default:
+            break;
+    }
+}
+
+graph* createGraphFromBIN(char *filename, int directedGraph) {
 
     FILE *f = fopen(filename, "rb");
     if (f == NULL) {
@@ -103,7 +105,7 @@ graph* createGraphFromBIN(char *filename) {
 
             if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
                 insertEdge(g, dr.nomeEstacao, dr_return.nomeEstacao,
-                           dr.distProxEstacao, dr.nomeLinha);
+                           dr.distProxEstacao, dr.nomeLinha, directedGraph);
             } else if(hasVertex(*g, dr.nomeEstacao) == -1) {
                 vertex *v = createVertex(dr.nomeEstacao);
                 insertVertex(g, v);
@@ -114,7 +116,7 @@ graph* createGraphFromBIN(char *filename) {
             if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
                 if (strcmp(dr.nomeEstacao, dr_return.nomeEstacao) != 0) {
                     insertEdge(g, dr.nomeEstacao, dr_return.nomeEstacao,
-                               0, "Integração");
+                               0, "Integração", directedGraph);
                 }
             }
         }

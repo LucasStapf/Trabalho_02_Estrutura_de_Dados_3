@@ -47,7 +47,7 @@ void printGraph(graph g);
 void printVertex(vertex v);
 void printAdjVertex(adjacentVertex adjV);
 
-int insertEdge(graph *g, char *verticeOrigem, char* verticeDestino, int distancia, char *nomeLinha);
+int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distancia, char *nomeLinha, int directedGraph);
 void insertVertex(graph *g, vertex *v);
 void insertAdjVertex(vertex *v, adjacentVertex *adjV);
 

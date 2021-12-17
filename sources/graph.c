@@ -61,7 +61,7 @@ int createGraph(graph *g, int maxSize) {
     return SUCCESS;
 }
 
-int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distancia, char *nomeLinha) {
+int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distancia, char *nomeLinha, int directedGraph) {
 
     if (g == NULL) return ERROR;
 
@@ -97,6 +97,9 @@ int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distanci
                 updateNomesLinhas(adjV, nomeLinha);
             }
         }
+
+        if (directedGraph == FALSE) insertEdge(g, verticeDestino, verticeOrigem, distancia, nomeLinha, TRUE);
+
     }
 }
 
@@ -325,5 +328,62 @@ void dfsAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *cami
     }
 
     addElementFirstLinkedList(caminho, g.vertices[iOrigem]->nomeEstacao);
+}
+
+
+void primAlgorithm(graph g, char *nomeOrigem, linkedlist *caminho) {
+    // Cria o vetor representante da Arvore Geradora Minima (Minimum Spanning Tree)
+    int *MST = (int*) malloc(sizeof(int) * g.size);
+    for (int i = 0; i < g.size; i++) MST[i] = -1; // todos os vertices do grafo ainda sem pai.
+
+    // Acha o indice no grafo correspondente à estacao de origem
+    int index = hasVertex(g, nomeOrigem);
+
+    MST[index] = index; // o pai do vertice de origem é ele mesmo
+
+
+
+    int first;
+
+    while (1) {
+        first = 1;
+        for (int i = 0; i < g.size; i++) {
+            if (MST[i] != -1) {
+
+                vertex *v = g.vertices[i];
+                iterator iter;
+                createIterator(v->verticesAdjacentes, &iter);
+
+                while(hasNextNode(&iter) == TRUE) {
+
+                    node *nAux = getNextNode(&iter);
+                    adjacentVertex *adjVAux = nAux->data;
+                    int indexAux = hasVertex(g, adjVAux->nomeProxEstacao);
+
+
+
+                    if (MST[ v[index][indexAux] ] == -1)
+                }
+
+
+                for (int j = 0; j < g->grau[i]; j++) {
+                    ////
+                }
+            }
+        }
+
+        if (first == 1) break;
+        MST[dest] = index;
+
+
+    }
+
+
+
+
+
+
+
+
 }
 
