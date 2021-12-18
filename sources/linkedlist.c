@@ -236,6 +236,14 @@ void removeNodeLinkedList(linkedlist *l, node *n) {
             aux->next = n->next;
             l->size--;
             return;
-        }
+        } else aux = aux->next;
+    }
+}
+
+void printLinkedList(linkedlist l, void (*print)()) {
+    node *aux = l.head;
+    while (aux != NULL) {
+        print(aux->data);
+        aux = aux->next;
     }
 }

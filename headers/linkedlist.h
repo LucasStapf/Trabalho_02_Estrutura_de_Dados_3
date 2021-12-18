@@ -46,4 +46,6 @@ int hasStringElementLinkedList(linkedlist *l, char *str);
 void printStringLinkedList(linkedlist l);
 //void sortStringLinkedList(linkedlist *l);
 
+void printLinkedList(linkedlist l, void (*print)());
+
 #endif 
