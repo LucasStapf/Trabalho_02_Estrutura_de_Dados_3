@@ -331,59 +331,100 @@ void dfsAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *cami
 }
 
 
-void primAlgorithm(graph g, char *nomeOrigem, linkedlist *caminho) {
-    // Cria o vetor representante da Arvore Geradora Minima (Minimum Spanning Tree)
-    int *MST = (int*) malloc(sizeof(int) * g.size);
-    for (int i = 0; i < g.size; i++) MST[i] = -1; // todos os vertices do grafo ainda sem pai.
+typedef struct { // vértice
+    char *nome;
+    enum COLOR cor;
+}V;
 
-    // Acha o indice no grafo correspondente à estacao de origem
-    int index = hasVertex(g, nomeOrigem);
+typedef struct { // aresta
+    V *v1;
+    V *v2;
+    int distancia;
+}A;
 
-    MST[index] = index; // o pai do vertice de origem é ele mesmo
+/**
+ * Compara duas arestas
+ * @param a1
+ * @param a2
+ * @return
+ */
+int compareAresta(A a1, A a2) {
+    if (a1.distancia == a2.distancia) {
+        if (strcmp(a1.v1->nome, a2.v1->nome) == 0) {
+            return strcmp(a1.v2->nome, a2.v2->nome);
+        } else return strcmp(a1.v1->nome, a2.v1->nome);
+    } else return a1.distancia - a2.distancia;
+}
 
+void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
 
+    createGraph(mst, g.size);
 
-    int first;
+    V vertices[g.size];
 
-    while (1) {
-        first = 1;
-        for (int i = 0; i < g.size; i++) {
-            if (MST[i] != -1) {
+    linkedlist arestas;
+    createLinkedList(&arestas);
 
-                vertex *v = g.vertices[i];
-                iterator iter;
-                createIterator(v->verticesAdjacentes, &iter);
+    for(int i = 0; i < g.size; i++) { // criação dos vértices
+        vertex *vertex1 = g.vertices[i];
+        vertices[i].nome = vertex1->nomeEstacao;
+        vertices[i].cor = WHITE;
+    }
 
-                while(hasNextNode(&iter) == TRUE) {
+    for(int i = 0; i < g.size; i++) { // criação das arestas
 
-                    node *nAux = getNextNode(&iter);
-                    adjacentVertex *adjVAux = nAux->data;
-                    int indexAux = hasVertex(g, adjVAux->nomeProxEstacao);
+        vertex *vertex1 = g.vertices[i];
+        linkedlist adjV = vertex1->verticesAdjacentes;
 
+        iterator iter;
+        createIterator(adjV, &iter);
+        while (hasNextNode(&iter) == TRUE) {
 
+            node *n = getNextNode(&iter);
+            adjacentVertex *adjacentVertex1 = n->data;
 
-                    if (MST[ v[index][indexAux] ] == -1)
-                }
+            int index = hasVertex(g, adjacentVertex1->nomeProxEstacao);
 
+            A *aresta = malloc(sizeof(A));
+            aresta->v1 = &vertices[i];
+            aresta->v2 = &vertices[index];
+            aresta->distancia = adjacentVertex1->distancia;
 
-                for (int j = 0; j < g->grau[i]; j++) {
-                    ////
-                }
-            }
+            addElementLinkedList(&arestas, aresta);
+            sortLinkedList(&arestas, compareAresta);
         }
-
-        if (first == 1) break;
-        MST[dest] = index;
-
-
     }
 
 
+    int indexAtual = hasVertex(g, nomeOrigem);
+    vertices[indexAtual].cor = BLACK;
+    int percorridos = 1;
 
+    while (percorridos < g.size) {
 
+        iterator iter;
+        createIterator(arestas, &iter);
 
+        while (hasNextNode(&iter) == TRUE) {
 
+            node *n = getNextNode(&iter);
+            A *aresta = n->data;
 
+            V *v1 = aresta->v1;
+            V *v2 = aresta->v2;
 
+            if (v1->cor == BLACK && v2->cor == BLACK) {
+                removeNodeLinkedList(&arestas, n);
+                continue;
+            }
+
+            insertEdge(mst, v1->nome, v2->nome, aresta->distancia, NULL, FALSE);
+            v1->cor = BLACK;
+            v2->cor = BLACK;
+
+            removeNodeLinkedList(&arestas, n);
+            percorridos++;
+        }
+    }
 }
 
