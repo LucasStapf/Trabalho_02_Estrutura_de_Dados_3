@@ -220,44 +220,22 @@ int addElementFirstLinkedList(linkedlist *l, void *data) {
     return SUCCESS;
 }
 
+void removeNodeLinkedList(linkedlist *l, node *n) {
 
-//// bubble otimizado
-//void sortStringLinkedList(linkedlist *l) {
-//
-//    if (l == NULL || l->size == 0) return;
-//
-//    int sorted = TRUE;
-//
-//    node *prevNode, *node, *aux;
-//
-//    for (int i = 0; i < l->size - 1; i++) {
-//
-//        prevNode = NULL;
-//        node = l->head;
-//
-//        for (int j = 0; j < l->size - 1 - i; j++) {
-//
-//            if(strcmp(node->data, node->next->data) > 0) {
-//
-//                sorted = FALSE;
-//
-//                aux = node->next;
-//                node->next = node->next->next;
-//                aux->next = node;
-//
-//                if (j == 0) l->head = prevNode = aux;
-//                else prevNode->next = aux;
-//
-//                prevNode = aux;
-//
-//            } else {
-//
-//                prevNode = node;
-//                node = node->next;
-//
-//            }
-//        }
-//
-//        if (sorted == TRUE) return;
-//    }
-//}
+    if (l == NULL || n == NULL) return;
+
+    if (l->head == n) { // É o primeiro elemento
+        l->head = n->next;
+        l->size--;
+    }
+
+    node *aux = l->head;
+
+    while (aux != NULL) {
+        if (aux->next == n) {
+            aux->next = n->next;
+            l->size--;
+            return;
+        }
+    }
+}
