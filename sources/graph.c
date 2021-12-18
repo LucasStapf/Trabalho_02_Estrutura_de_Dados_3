@@ -341,6 +341,10 @@ typedef struct { // aresta
     int distancia;
 }A;
 
+void printAresta(A a) {
+    printf(" %s | %s | %d ", a.v1->nome, a.v2->nome, a.distancia);
+}
+
 /**
  * Compara duas arestas
  * @param a1
@@ -354,6 +358,7 @@ int compareAresta(A a1, A a2) {
         } else return strcmp(a1.v1->nome, a2.v1->nome);
     } else return a1.distancia - a2.distancia;
 }
+
 
 void printDFS(graph g, char *nomeOrigem) {
 
@@ -395,7 +400,6 @@ void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
         iterator iter;
         createIterator(adjV, &iter);
         while (hasNextNode(&iter) == TRUE) {
-
             node *n = getNextNode(&iter);
             adjacentVertex *adjacentVertex1 = n->data;
 
@@ -433,6 +437,8 @@ void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
                 removeNodeLinkedList(&arestas, n);
                 continue;
             }
+
+            if (v1->cor == WHITE && v2->cor == WHITE) continue;
 
             insertEdge(mst, v1->nome, v2->nome, aresta->distancia, NULL, FALSE);
             v1->cor = BLACK;
