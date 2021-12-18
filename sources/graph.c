@@ -97,10 +97,9 @@ int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distanci
                 updateNomesLinhas(adjV, nomeLinha);
             }
         }
-
-        if (directedGraph == FALSE) insertEdge(g, verticeDestino, verticeOrigem, distancia, nomeLinha, TRUE);
-
     }
+
+    if (directedGraph == FALSE) insertEdge(g, verticeDestino, verticeOrigem, distancia, nomeLinha, TRUE);
 }
 
 /**
@@ -354,6 +353,23 @@ int compareAresta(A a1, A a2) {
             return strcmp(a1.v2->nome, a2.v2->nome);
         } else return strcmp(a1.v1->nome, a2.v1->nome);
     } else return a1.distancia - a2.distancia;
+}
+
+void printDFS(graph g, char *nomeOrigem) {
+
+    int index = hasVertex(g, nomeOrigem);
+
+    iterator iter;
+    createIterator(g.vertices[index]->verticesAdjacentes, &iter);
+
+    printf("%s, ", nomeOrigem);
+
+    while (hasNextNode(&iter) == TRUE) {
+        node *n = getNextNode(&iter);
+        adjacentVertex *adjV = n->data;
+        printf("%s, %d\n", adjV->nomeProxEstacao, adjV->distancia);
+        printDFS(g, adjV->nomeProxEstacao);
+    }
 }
 
 void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
