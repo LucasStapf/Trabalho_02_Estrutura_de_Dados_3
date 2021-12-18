@@ -272,7 +272,7 @@ int dfsRecursion(graph g, vertex *vOrigem, vertex *vDestino, enum COLOR *vertice
         adjacentVertex *adjVAux = nAux->data;
         int indexAux = hasVertex(g, adjVAux->nomeProxEstacao);
 
-        if (vertexCompare(*vDestino, *g.vertices[indexAux]) == TRUE) {
+        if (vDestino != NULL && vertexCompare(*vDestino, *g.vertices[indexAux]) == TRUE) {
 
             est[indexAux].distancia = adjVAux->distancia;
             est[indexAux].antecessor = vOrigem->nomeEstacao;
