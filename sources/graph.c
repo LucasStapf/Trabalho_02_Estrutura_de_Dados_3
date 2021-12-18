@@ -309,12 +309,6 @@ void dfsAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *cami
     int iDestino = hasVertex(g, nomeDestino);
     vertex *vDestino = g.vertices[iDestino];
 
-//    node *n = getNodeLinkedList(vOrigem.verticesAdjacentes, 0);
-//    adjacentVertex *adjV = n->data;
-//
-//    int iAux = hasVertex(g, adjV->nomeProxEstacao);
-//    vertex vAux = *g.vertices[iAux];
-
     dfsRecursion(g, vOrigem, vDestino, vertices, est);
 
     while (est[iDestino].antecessor != NULL) {
@@ -342,15 +336,9 @@ typedef struct { // aresta
 }A;
 
 void printAresta(A a) {
-    printf(" %s | %s | %d ", a.v1->nome, a.v2->nome, a.distancia);
+    printf(" %s | %s | %d \n", a.v1->nome, a.v2->nome, a.distancia);
 }
 
-/**
- * Compara duas arestas
- * @param a1
- * @param a2
- * @return
- */
 int compareAresta(A a1, A a2) {
     if (a1.distancia == a2.distancia) {
         if (strcmp(a1.v1->nome, a2.v1->nome) == 0) {
@@ -359,22 +347,38 @@ int compareAresta(A a1, A a2) {
     } else return a1.distancia - a2.distancia;
 }
 
+void printDFSRecursion(graph g, char *nomeOrigem, enum COLOR *vertices) {
+
+    int index = hasVertex(g, nomeOrigem);
+    vertices[index] = GRAY;
+
+    vertex *v = g.vertices[index];
+    iterator iter;
+    createIterator(v->verticesAdjacentes, &iter);
+
+    while (hasNextNode(&iter) == TRUE) {
+
+        node *n = getNextNode(&iter);
+        adjacentVertex *adjV = n->data;
+
+        int indexAdj = hasVertex(g, adjV->nomeProxEstacao);
+
+        if (vertices[indexAdj] == WHITE) {
+            vertices[indexAdj] = GRAY;
+            printf("%s, %s, %d\n", nomeOrigem, adjV->nomeProxEstacao, adjV->distancia);
+            printDFSRecursion(g, adjV->nomeProxEstacao, vertices);
+        }
+    }
+
+    vertices[index] = BLACK;
+}
 
 void printDFS(graph g, char *nomeOrigem) {
 
-    int index = hasVertex(g, nomeOrigem);
+    enum COLOR *vertices = malloc(sizeof(enum COLOR) * g.size);
+    for (int i = 0; i < g.size; i++) vertices[i] = WHITE;
 
-    iterator iter;
-    createIterator(g.vertices[index]->verticesAdjacentes, &iter);
-
-    printf("%s, ", nomeOrigem);
-
-    while (hasNextNode(&iter) == TRUE) {
-        node *n = getNextNode(&iter);
-        adjacentVertex *adjV = n->data;
-        printf("%s, %d\n", adjV->nomeProxEstacao, adjV->distancia);
-        printDFS(g, adjV->nomeProxEstacao);
-    }
+    printDFSRecursion(g, nomeOrigem, vertices);
 }
 
 void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
@@ -399,7 +403,9 @@ void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
 
         iterator iter;
         createIterator(adjV, &iter);
+
         while (hasNextNode(&iter) == TRUE) {
+
             node *n = getNextNode(&iter);
             adjacentVertex *adjacentVertex1 = n->data;
 
@@ -415,6 +421,7 @@ void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
         }
     }
 
+//    printLinkedList(arestas, printAresta);
 
     int indexAtual = hasVertex(g, nomeOrigem);
     vertices[indexAtual].cor = BLACK;
@@ -446,6 +453,8 @@ void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
 
             removeNodeLinkedList(&arestas, n);
             percorridos++;
+
+            break;
         }
     }
 }
