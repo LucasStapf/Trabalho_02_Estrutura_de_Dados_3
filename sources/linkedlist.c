@@ -182,11 +182,12 @@ int hasStringElementLinkedList(linkedlist *l, char *str) {
 
 void printStringLinkedList(linkedlist l) {
 
-  node *aux = l.head;
-  while (aux != NULL) {
-    printf("%s ", (char *)aux->data);
-    aux = aux->next;
-  }
+    node *aux = l.head;
+    while (aux != NULL) {
+        if (aux->next != NULL) printf("%s ", (char *)aux->data);
+        else printf("%s", (char *)aux->data);
+        aux = aux->next;
+    }
 }
 
 void createIterator(linkedlist l, iterator *i) {

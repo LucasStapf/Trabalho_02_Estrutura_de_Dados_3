@@ -28,8 +28,27 @@ enum COLOR {
     BLACK
 };
 
+int compareStrVoid(void *str1, void *str2) {
+    char *STR1 = str1;
+    char *STR2 = str2;
+    return strcmp(STR1, STR2);
+}
+
+int vertexCompareVoid(void *v1, void *v2) {
+    vertex *V1 = v1;
+    vertex *V2 = v2;
+    return vertexCompare(*V1, *V2);
+}
+
 int vertexCompare(vertex v1, vertex v2) {
     return strcmp(v1.nomeEstacao, v2.nomeEstacao);
+}
+
+int adjVertexCompareVoid(void *v1, void *v2) {
+
+    adjacentVertex *V1 = v1;
+    adjacentVertex *V2 = v2;
+    return adjVertexCompare(*V1, *V2);
 }
 
 int adjVertexCompare(adjacentVertex v1, adjacentVertex v2) {
@@ -120,12 +139,15 @@ void printGraph(graph g) {
  * @param v vértice a ser mostrado na tela.
  */
 void printVertex(vertex v) {
-    printf("%s ", v.nomeEstacao);
-    node *n = v.verticesAdjacentes.head;
-    for (int i = 0; i < v.verticesAdjacentes.size; i++) {
-        adjacentVertex *adjV = n->data;
-        printAdjVertex(*adjV);
-        n = n->next;
+    if (v.verticesAdjacentes.size == 0) printf("%s", v.nomeEstacao);
+    else {
+        printf("%s ", v.nomeEstacao);
+        node *n = v.verticesAdjacentes.head;
+        for (int i = 0; i < v.verticesAdjacentes.size; i++) {
+            adjacentVertex *adjV = n->data;
+            printAdjVertex(*adjV);
+            n = n->next;
+        }
     }
 }
 
@@ -163,7 +185,7 @@ adjacentVertex *createAdjcentVertex(char *nomeEstacao, int distancia) {
 void insertVertex(graph *g, vertex *v) {
     g->vertices[g->size] = v;
     g->size++;
-    sortArray((void**) g->vertices, g->size, vertexCompare);
+    sortArray((void**) g->vertices, g->size, vertexCompareVoid);
 }
 
 /**
@@ -185,7 +207,7 @@ void insertAdjVertex(vertex *v, adjacentVertex *adjV) {
  */
 void updateNomesLinhas(adjacentVertex *adjV, char *nomeLinha) {
     addStringLinkedList(&adjV->nomesLinhas, nomeLinha);
-    sortLinkedList(&adjV->nomesLinhas, strcmp);
+    sortLinkedList(&adjV->nomesLinhas, compareStrVoid);
 }
 
 /**
