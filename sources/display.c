@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include "../headers/display.h"
-#include "constants.h"
+#include "../headers/constants.h"
 
 
 /**

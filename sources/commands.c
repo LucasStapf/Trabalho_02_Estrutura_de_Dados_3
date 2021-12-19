@@ -10,9 +10,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "display.h"
-#include "commands.h"
-#include "graph.h"
+#include "../headers/display.h"
+#include "../headers/commands.h"
+#include "../headers/graph.h"
 
 
 /**

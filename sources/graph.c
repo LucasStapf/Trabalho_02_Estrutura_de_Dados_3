@@ -11,11 +11,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include "binmanager.h"
-#include "registers.h"
-#include "graph.h"
-#include "linkedlist.h"
-#include "sort.h"
+#include "../headers/binmanager.h"
+#include "../headers/registers.h"
+#include "../headers/graph.h"
+#include "../headers/linkedlist.h"
+#include "../headers/sort.h"
 
 typedef struct estruturaAux {
     int distancia;

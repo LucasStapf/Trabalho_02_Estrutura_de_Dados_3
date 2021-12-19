@@ -8,7 +8,7 @@
  */
 
 #include <stdio.h>
-#include "binmanager.h"
+#include "../headers/binmanager.h"
 
 /**
  * @brief Esta funcao le o registro de cabecalho no inicio do arquivo binario e salva
