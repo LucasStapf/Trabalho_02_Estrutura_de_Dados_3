@@ -55,11 +55,11 @@ void cmdSelector() {
             shortestPathCommand(filename, nomeOrigem, nomeDestino);
             break;
 //
-//        case CYCLIC_PATH:
-//            str = strtok(NULL, " ");
-//            number = atoi(str);
-//            selectDataWhereTable(filename, number);
-//            break;
+        case CYCLIC_PATH:
+            strtok_custom(NULL, ' ');
+            str = strtok_custom(NULL, ' ');
+            cyclicPathCommand(filename, str);
+            break;
 
 
 //        case MINIMUM_SPANNIG_TREE:
@@ -95,6 +95,13 @@ void createGraphCommand(char *filename) {
     else printGraph(*g);
 }
 
+/**
+ * Utiliza o algortimo de Dijkstra para encontrar, se existir, o menor caminho entre duas estações.
+ * Caso houver um caminho, este será printado conforme especificação do trabalho.
+ * @param filename nome do arquivo binário de dados.
+ * @param nomeOrigem nome da estação de partida.
+ * @param nomeDestino nome da estação de chegada.
+ */
 void shortestPathCommand(char *filename, char *nomeOrigem, char *nomeDestino) {
     graph *g;
     if((g = createGraphFromBIN(filename, TRUE)) == NULL) showMessage(ERROR);
@@ -123,6 +130,36 @@ void shortestPathCommand(char *filename, char *nomeOrigem, char *nomeDestino) {
     }
 }
 
+
+void cyclicPathCommand(char *filename, char *nomeOrigem) {
+
+    graph *g;
+
+    if((g = createGraphFromBIN(filename, TRUE)) == NULL) showMessage(ERROR);
+    else {
+
+        linkedlist path;
+        iterator iter;
+        int distancia;
+        dfsAlgorithm(*g, nomeOrigem, nomeOrigem, &path, &distancia);
+        createIterator(path, &iter);
+
+        if (path.size == 1) {
+            showMessage(CYCLE_NOT_FOUND);
+            return;
+        }
+
+        printf("Numero de estacoes que serao percorridas: %d\n", path.size - 1);
+        printf("Distancia que sera percorrida: %d\n", distancia);
+
+        while (hasNextNode(&iter) == TRUE) {
+            node *n = getNextNode(&iter);
+            char *str = n->data;
+            printf("%s", str);
+            if (hasNextNode(&iter) == TRUE) printf(", ");
+        }
+    }
+}
 
 /**
  * @brief Esta funcao possui a mesma funcionalidade da funcao original stktok da string.h,

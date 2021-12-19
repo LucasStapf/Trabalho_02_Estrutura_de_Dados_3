@@ -399,6 +399,7 @@ void dfsAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *cami
         addElementFirstLinkedList(caminho, g.vertices[iDestino]->nomeEstacao);
         int aux = iDestino;
         iDestino = hasVertex(g, est[iDestino].antecessor);
+        *distanciaTotal += est[aux].distancia;
         est[aux].antecessor = NULL;
         est[aux].distancia = -1;
     }
