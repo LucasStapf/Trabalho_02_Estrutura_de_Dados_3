@@ -36,6 +36,7 @@
 #define FILE_NOT_CONSISTENT 7
 
 #define PATH_NOT_FOUND 8
+#define CYCLE_NOT_FOUND 9
 
 // Definidos a partir do SEEK_SET.
 #define SEEK_STATUS 0

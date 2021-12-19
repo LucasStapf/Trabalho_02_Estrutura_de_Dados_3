@@ -33,6 +33,9 @@ int showMessage(int cod) {
             printf("Não existe caminho entre as estações solicitadas.");
             break;
 
+        case CYCLE_NOT_FOUND:
+            printf("Nao existe um ciclo a partir da estacao de origem.");
+            break;
     // case REGISTER_NOT_FOUND:
     //     printf("Registro inexistente.");
     //     break;
