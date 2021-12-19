@@ -262,7 +262,7 @@ graph* createGraphFromBIN(char *filename, int directedGraph) {
 }
 
 
-void dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminho, int *distanciaTotal) {
+int dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminho, int *distanciaTotal) {
 
     vertex **S = malloc(sizeof(vertex*) * g.size);
     int sizeOfS = 0;
@@ -323,6 +323,9 @@ void dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist 
 
     createLinkedList(caminho);
     index = hasVertex(g, nomeDestino);
+
+    if (D[index].antecessor == NULL) return PATH_NOT_FOUND;
+
     *distanciaTotal = D[index].distancia;
 
     while (strcmp(nomeOrigem, g.vertices[index]->nomeEstacao) != 0) {
@@ -331,6 +334,8 @@ void dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist 
     }
 
     addElementFirstLinkedList(caminho, g.vertices[hasVertex(g, nomeOrigem)]->nomeEstacao);
+
+    return SUCCESS;
 }
 
 int dfsRecursion(graph g, vertex *vOrigem, vertex *vDestino, enum COLOR *vertices, estruturaAux *est) {

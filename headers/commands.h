@@ -27,6 +27,7 @@ enum command {
 
 void cmdSelector();
 void createGraphCommand(char *filename);
+void shortestPathCommand(char *filename, char *nomeOrigem, char *nomeDestino);
 
 //void binarioNaTela(char *nomeArquivoBinario);
 

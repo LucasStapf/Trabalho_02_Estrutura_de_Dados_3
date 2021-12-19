@@ -35,6 +35,8 @@
 #define CONSISTENT_FILE 6
 #define FILE_NOT_CONSISTENT 7
 
+#define PATH_NOT_FOUND 8
+
 // Definidos a partir do SEEK_SET.
 #define SEEK_STATUS 0
 #define SEEK_TOPO_LISTA 1

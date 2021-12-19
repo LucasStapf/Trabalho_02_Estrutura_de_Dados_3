@@ -216,6 +216,7 @@ int addElementFirstLinkedList(linkedlist *l, void *data) {
         n->data = data;
         n->next = l->head;
         l->head = n;
+        l->size++;
     }
 
     return SUCCESS;

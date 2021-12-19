@@ -25,9 +25,13 @@ int showMessage(int cod) {
 
     switch(cod) {
     
-     case FILE_ERROR:
-         printf("Falha na execução da funcionalidade.");
-         break;
+        case FILE_ERROR:
+            printf("Falha na execução da funcionalidade.");
+            break;
+
+        case PATH_NOT_FOUND:
+            printf("Não existe caminho entre as estações solicitadas.");
+            break;
 
     // case REGISTER_NOT_FOUND:
     //     printf("Registro inexistente.");
@@ -38,6 +42,7 @@ int showMessage(int cod) {
     //     break;
 
     default:
+        printf("Falha na execucao da funcionalidade.");
         break;
     }
 

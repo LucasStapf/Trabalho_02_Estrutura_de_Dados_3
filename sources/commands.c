@@ -33,9 +33,9 @@ void cmdSelector() {
 
     eraseCRLF(inputstr);
 
-    str = strtok(inputstr, " ");
+    str = strtok_custom(inputstr, ' ');
     cmd = atoi(str);
-    str = strtok(NULL, " ");
+    str = strtok_custom(NULL, ' ');
     strncpy(filename, str, MAX_SIZE_STR);
 
     switch(cmd) {
@@ -44,9 +44,16 @@ void cmdSelector() {
             createGraphCommand(filename);
             break;
 
-//        case SHORTEST_PATH:
-//            selectDataTable(filename);
-//            break;
+        case SHORTEST_PATH:
+            strtok_custom(NULL, ' ');
+            char nomeOrigem[MAX_SIZE_STR], nomeDestino[MAX_SIZE_STR];
+            str = strtok_custom(NULL, ' ');
+            strcpy(nomeOrigem, str);
+            strtok_custom(NULL, ' ');
+            str = strtok_custom(NULL, ' ');
+            strcpy(nomeDestino, str);
+            shortestPathCommand(filename, nomeOrigem, nomeDestino);
+            break;
 //
 //        case CYCLIC_PATH:
 //            str = strtok(NULL, " ");
@@ -87,6 +94,35 @@ void createGraphCommand(char *filename) {
     if((g = createGraphFromBIN(filename, TRUE)) == NULL) showMessage(ERROR);
     else printGraph(*g);
 }
+
+void shortestPathCommand(char *filename, char *nomeOrigem, char *nomeDestino) {
+    graph *g;
+    if((g = createGraphFromBIN(filename, TRUE)) == NULL) showMessage(ERROR);
+    else {
+        linkedlist path;
+        iterator iter;
+        int distancia;
+
+        if(dijkstraAlgorithm(*g, nomeOrigem, nomeDestino, &path, &distancia)
+        == PATH_NOT_FOUND) {
+            showMessage(PATH_NOT_FOUND);
+            return;
+        }
+
+        createIterator(path, &iter);
+
+        printf("Numero de estacoes que serao percorridas: %d\n", path.size - 1);
+        printf("Distancia que sera percorrida: %d\n", distancia);
+
+        while (hasNextNode(&iter) == TRUE) {
+            node *n = getNextNode(&iter);
+            char *str = n->data;
+            printf("%s", str);
+            if (hasNextNode(&iter) == TRUE) printf(", ");
+        }
+    }
+}
+
 
 /**
  * @brief Esta funcao possui a mesma funcionalidade da funcao original stktok da string.h,
@@ -142,7 +178,6 @@ char *strtok_custom(char *str, char delimitador) {
         }
     }
 }
-
 
 /**
  * @brief Remove os caracteres '\\r' (CR) e '\\n' (LF) da string.
