@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "display.h"
 #include "commands.h"
 #include "binmanager.h"
 #include "graph.h"
@@ -80,49 +81,4 @@
 //    }
 //}
 
-graph* createGraphFromBIN(char *filename, int directedGraph) {
-
-    FILE *f = fopen(filename, "rb");
-    if (f == NULL) {
-        return NULL; // arrumar
-
-    }
-
-    HeaderRegister hr;
-    readHeaderRegisterBIN(f, &hr);
-
-    graph *g = malloc(sizeof(graph));
-    createGraph(g, hr.nroEstacoes);
-
-    DataRegister dr, dr_search, dr_return;
-
-    while (!feof(f)) {
-
-        if (readDataRegisterBIN(f, &dr) == NOT_REMOVED) {
-
-            setEmptyDataRegister(&dr_search);
-            dr_search.codEstacao = dr.codProxEstacao;
-
-            if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
-                insertEdge(g, dr.nomeEstacao, dr_return.nomeEstacao,
-                           dr.distProxEstacao, dr.nomeLinha, directedGraph);
-            } else if(hasVertex(*g, dr.nomeEstacao) == -1) {
-                vertex *v = createVertex(dr.nomeEstacao);
-                insertVertex(g, v);
-            }
-
-            dr_search.codEstacao = dr.codEstIntegra;
-
-            if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
-                if (strcmp(dr.nomeEstacao, dr_return.nomeEstacao) != 0) {
-                    insertEdge(g, dr.nomeEstacao, dr_return.nomeEstacao,
-                               0, "Integração", directedGraph);
-                }
-            }
-        }
-    }
-
-//    printGraph(*g);
-    return g;
-}
 

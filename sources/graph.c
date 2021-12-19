@@ -11,6 +11,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include "binmanager.h"
+#include "registers.h"
 #include "graph.h"
 #include "linkedlist.h"
 #include "sort.h"
@@ -185,6 +187,57 @@ void updateNomesLinhas(adjacentVertex *adjV, char *nomeLinha) {
     addStringLinkedList(&adjV->nomesLinhas, nomeLinha);
     sortLinkedList(&adjV->nomesLinhas, strcmp);
 }
+
+/**
+ * Cria um grafo a partir do arquivo binário passado.
+ * @param filename nome do arquivo binário de dados.
+ * @param directedGraph diretriz para grafo ser direcional ou não.
+ * @return retorna um ponteiro para um grafo caso tudo ocorra devidamente.
+ * Retorna NULL caso ocorra alguma falha.
+ */
+graph* createGraphFromBIN(char *filename, int directedGraph) {
+
+    FILE *f = fopen(filename, "rb");
+
+    if (f == NULL) return NULL;
+
+    HeaderRegister hr;
+    readHeaderRegisterBIN(f, &hr);
+
+    graph *g = malloc(sizeof(graph));
+    createGraph(g, hr.nroEstacoes);
+
+    DataRegister dr, dr_search, dr_return;
+
+    while (!feof(f)) {
+
+        if (readDataRegisterBIN(f, &dr) == NOT_REMOVED) {
+
+            setEmptyDataRegister(&dr_search);
+            dr_search.codEstacao = dr.codProxEstacao;
+
+            if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
+                insertEdge(g, dr.nomeEstacao, dr_return.nomeEstacao,
+                           dr.distProxEstacao, dr.nomeLinha, directedGraph);
+            } else if(hasVertex(*g, dr.nomeEstacao) == -1) {
+                vertex *v = createVertex(dr.nomeEstacao);
+                insertVertex(g, v);
+            }
+
+            dr_search.codEstacao = dr.codEstIntegra;
+
+            if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
+                if (strcmp(dr.nomeEstacao, dr_return.nomeEstacao) != 0) {
+                    insertEdge(g, dr.nomeEstacao, dr_return.nomeEstacao,
+                               0, "Integração", directedGraph);
+                }
+            }
+        }
+    }
+
+    return g;
+}
+
 
 void dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminho, int *distanciaTotal) {
 

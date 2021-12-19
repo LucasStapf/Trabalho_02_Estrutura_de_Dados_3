@@ -28,8 +28,6 @@ enum command {
 
 void cmdSelector();
 
-graph* createGraphFromBIN(char *filename, int directedGraph);
-
 
 void binarioNaTela(char *nomeArquivoBinario);
 
