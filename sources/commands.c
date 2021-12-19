@@ -88,6 +88,60 @@ void createGraphCommand(char *filename) {
     else printGraph(*g);
 }
 
+/**
+ * @brief Esta funcao possui a mesma funcionalidade da funcao original stktok da string.h,
+ * porem a string nao eh quebrada no delimitador se estiver entre aspas duplas, sendo
+ * quebrado o bloco inteiro de caracteres dentro das aspas.
+ *
+ * @param str string a ser quebrada.
+ * @param delimitador char, baseado no qual eh feita a quebra da string.
+ * @return ponteiro para o inicio do token valido (pedaco da string).
+ *
+ * @author Leonardo Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
+char *strtok_custom(char *str, char delimitador) {
+
+    static char *pi, *pf;
+
+    if(str != NULL) pi = pf = str;
+    else pi = pf;
+
+    if(pi == NULL) return NULL;
+
+    int i = 0;
+
+    if(pf[i] == delimitador) {
+        for (; pf[i] == delimitador; i++);
+        pi = pf = &pf[i];
+    }
+
+    for(i = 0; pf[i] != delimitador && pf[i] != '"' && pf[i] != '\0'; i++);
+
+    if(pf[i] == delimitador) {
+
+        pf[i] = '\0';
+        pf = &pf[i + 1];
+        return pi;
+
+    } else if(pf[i] == '"') {
+
+        pi++;
+        pf++;
+        for (i = 0; pf[i] != '"'; i++);
+        pf[i] = '\0';
+        pf = &pf[i + 1];
+        return pi;
+
+    } else {
+
+        if (i == 0) return NULL;
+        else {
+            pf = NULL;
+            return pi;
+        }
+    }
+}
 
 
 /**

@@ -20,9 +20,8 @@ enum command {
   CREATE_GRAPH = 7,
   SHORTEST_PATH,
   CYCLIC_PATH,
-  deleteData, 
-  insertData, 
-  updateData
+  MINIMUM_SPANNIG_TREE,
+  AVAILABLE_PATHS
 
 };
 
