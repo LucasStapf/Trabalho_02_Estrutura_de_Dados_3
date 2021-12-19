@@ -196,7 +196,7 @@ void insertVertex(graph *g, vertex *v) {
  */
 void insertAdjVertex(vertex *v, adjacentVertex *adjV) {
     addElementLinkedList(&v->verticesAdjacentes, (void*) adjV);
-    sortLinkedList(&v->verticesAdjacentes, adjVertexCompare);
+    sortLinkedList(&v->verticesAdjacentes, adjVertexCompareVoid);
 }
 
 /**
