@@ -21,64 +21,64 @@
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
-void cmdSelector() {
-
-    char inputstr[MAX_SIZE_STR];
-    char *str;
-
-    fgets(inputstr, MAX_SIZE_STR, stdin);
-
-    char filename[MAX_SIZE_STR], destinationfilename[MAX_SIZE_STR];
-    int cmd;
-    int number;
-
-    eraseCRLF(inputstr);
-
-    str = strtok(inputstr, " ");
-    cmd = atoi(str);
-    str = strtok(NULL, " ");
-    strncpy(filename, str, MAX_SIZE_STR);
-
-
-
-    switch(cmd) {
-
-        case CREATE_GRAPH:
-            createGraphFromBIN(filename, TRUE);
-            break;
-
-        case SHORTEST_PATH:
-            selectDataTable(filename);
-            break;
-
-        case CYCLIC_PATH:
-            str = strtok(NULL, " ");
-            number = atoi(str);
-            selectDataWhereTable(filename, number);
-            break;
-
-//        case deleteData:
-//            str = strtok(NULL, " ");
-//            number = atoi(str);
-//            deleteDataTable(filename, number);
+//void cmdSelector() {
+//
+//    char inputstr[MAX_SIZE_STR];
+//    char *str;
+//
+//    fgets(inputstr, MAX_SIZE_STR, stdin);
+//
+//    char filename[MAX_SIZE_STR], destinationfilename[MAX_SIZE_STR];
+//    int cmd;
+//    int number;
+//
+//    eraseCRLF(inputstr);
+//
+//    str = strtok(inputstr, " ");
+//    cmd = atoi(str);
+//    str = strtok(NULL, " ");
+//    strncpy(filename, str, MAX_SIZE_STR);
+//
+//
+//
+//    switch(cmd) {
+//
+//        case CREATE_GRAPH:
+//            createGraphFromBIN(filename, TRUE);
 //            break;
 //
-//        case insertData:
-//            str = strtok(NULL, " ");
-//            number = atoi(str);
-//            insertDataTable(filename, number);
+//        case SHORTEST_PATH:
+//            selectDataTable(filename);
 //            break;
 //
-//        case updateData:
+//        case CYCLIC_PATH:
 //            str = strtok(NULL, " ");
 //            number = atoi(str);
-//            updateDataTable(filename, number);
+//            selectDataWhereTable(filename, number);
 //            break;
-
-        default:
-            break;
-    }
-}
+//
+////        case deleteData:
+////            str = strtok(NULL, " ");
+////            number = atoi(str);
+////            deleteDataTable(filename, number);
+////            break;
+////
+////        case insertData:
+////            str = strtok(NULL, " ");
+////            number = atoi(str);
+////            insertDataTable(filename, number);
+////            break;
+////
+////        case updateData:
+////            str = strtok(NULL, " ");
+////            number = atoi(str);
+////            updateDataTable(filename, number);
+////            break;
+//
+//        default:
+//            break;
+//    }
+//}
 
 graph* createGraphFromBIN(char *filename, int directedGraph) {
 
