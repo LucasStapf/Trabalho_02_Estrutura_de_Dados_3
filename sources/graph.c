@@ -130,7 +130,7 @@ int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distanci
 void printGraph(graph g) {
     for (int i = 0; i < g.size; i++) {
         printVertex(*g.vertices[i]);
-        printf("\n");
+        if (i < g.size - 1) printf("\n");
     }
 }
 
@@ -141,9 +141,10 @@ void printGraph(graph g) {
 void printVertex(vertex v) {
     if (v.verticesAdjacentes.size == 0) printf("%s", v.nomeEstacao);
     else {
-        printf("%s ", v.nomeEstacao);
+        printf("%s", v.nomeEstacao);
         node *n = v.verticesAdjacentes.head;
         for (int i = 0; i < v.verticesAdjacentes.size; i++) {
+            printf(" ");
             adjacentVertex *adjV = n->data;
             printAdjVertex(*adjV);
             n = n->next;
@@ -251,7 +252,7 @@ graph* createGraphFromBIN(char *filename, int directedGraph) {
             if (findDataRegisterBIN(f, &dr_search, &dr_return) == REGISTER_FOUND) {
                 if (strcmp(dr.nomeEstacao, dr_return.nomeEstacao) != 0) {
                     insertEdge(g, dr.nomeEstacao, dr_return.nomeEstacao,
-                               0, "Integração", directedGraph);
+                               0, "Integracao", directedGraph);
                 }
             }
         }
