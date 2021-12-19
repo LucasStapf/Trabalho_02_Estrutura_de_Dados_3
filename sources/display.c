@@ -7,7 +7,9 @@
  * Lucas Carvalho Freiberger Stapf     NUSP: 11800559
  */
 
+#include <stdio.h>
 #include "../headers/display.h"
+#include "constants.h"
 
 
 /**
@@ -23,9 +25,9 @@ int showMessage(int cod) {
 
     switch(cod) {
     
-    // case FILE_ERROR:
-    //     printf("Falha no processamento do arquivo.");
-    //     break;
+     case FILE_ERROR:
+         printf("Falha na execução da funcionalidade.");
+         break;
 
     // case REGISTER_NOT_FOUND:
     //     printf("Registro inexistente.");
