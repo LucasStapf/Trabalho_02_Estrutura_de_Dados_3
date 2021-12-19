@@ -27,9 +27,9 @@ enum command {
 };
 
 void cmdSelector();
+void createGraphCommand(char *filename);
 
-
-void binarioNaTela(char *nomeArquivoBinario);
+//void binarioNaTela(char *nomeArquivoBinario);
 
 char* strtok_custom(char* str, char delimitador);
 void eraseCRLF(char *str);

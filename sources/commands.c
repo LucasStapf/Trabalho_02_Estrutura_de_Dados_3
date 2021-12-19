@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include "display.h"
 #include "commands.h"
-#include "binmanager.h"
 #include "graph.h"
 
 
@@ -22,32 +21,29 @@
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
-//void cmdSelector() {
-//
-//    char inputstr[MAX_SIZE_STR];
-//    char *str;
-//
-//    fgets(inputstr, MAX_SIZE_STR, stdin);
-//
-//    char filename[MAX_SIZE_STR], destinationfilename[MAX_SIZE_STR];
-//    int cmd;
-//    int number;
-//
-//    eraseCRLF(inputstr);
-//
-//    str = strtok(inputstr, " ");
-//    cmd = atoi(str);
-//    str = strtok(NULL, " ");
-//    strncpy(filename, str, MAX_SIZE_STR);
-//
-//
-//
-//    switch(cmd) {
-//
-//        case CREATE_GRAPH:
-//            createGraphFromBIN(filename, TRUE);
-//            break;
-//
+void cmdSelector() {
+
+    char inputstr[MAX_SIZE_STR];
+    char *str;
+
+    fgets(inputstr, MAX_SIZE_STR, stdin);
+
+    char filename[MAX_SIZE_STR];
+    int cmd;
+
+    eraseCRLF(inputstr);
+
+    str = strtok(inputstr, " ");
+    cmd = atoi(str);
+    str = strtok(NULL, " ");
+    strncpy(filename, str, MAX_SIZE_STR);
+
+    switch(cmd) {
+
+        case CREATE_GRAPH:
+            createGraphCommand(filename);
+            break;
+
 //        case SHORTEST_PATH:
 //            selectDataTable(filename);
 //            break;
@@ -57,28 +53,52 @@
 //            number = atoi(str);
 //            selectDataWhereTable(filename, number);
 //            break;
-//
-////        case deleteData:
-////            str = strtok(NULL, " ");
-////            number = atoi(str);
-////            deleteDataTable(filename, number);
-////            break;
-////
-////        case insertData:
-////            str = strtok(NULL, " ");
-////            number = atoi(str);
-////            insertDataTable(filename, number);
-////            break;
-////
-////        case updateData:
-////            str = strtok(NULL, " ");
-////            number = atoi(str);
-////            updateDataTable(filename, number);
-////            break;
-//
-//        default:
+
+
+//        case MINIMUM_SPANNIG_TREE:
+//            str = strtok(NULL, " ");
+//            number = atoi(str);
+//            deleteDataTable(filename, number);
 //            break;
-//    }
-//}
+//
+//        case AVAILABLE_PATHS:
+//            str = strtok(NULL, " ");
+//            number = atoi(str);
+//            insertDataTable(filename, number);
+//            break;
+//
+//        case updateData:
+//            str = strtok(NULL, " ");
+//            number = atoi(str);
+//            updateDataTable(filename, number);
+//            break;
+
+        default:
+            break;
+    }
+}
+
+/**
+ * Cria um grafo a partir de um arquivo binário e imprime esse na tela.
+ * @param filename nome do arquivo de dados.
+ */
+void createGraphCommand(char *filename) {
+    graph *g;
+    if((g = createGraphFromBIN(filename, TRUE)) == NULL) showMessage(ERROR);
+    else printGraph(*g);
+}
 
 
+
+/**
+ * @brief Remove os caracteres '\\r' (CR) e '\\n' (LF) da string.
+ *
+ * @param str String de entrada.
+ *
+ * @author Leonardo Hannas de Carvalho Santos
+ * @author Lucas Carvalho Freiberger Stapf
+ */
+void eraseCRLF(char *str) {
+    if(str[strlen(str) - 1] == '\n') str[strlen(str) - 1] = '\0'; // Tira o '\n' se houver.
+    if(str[strlen(str) - 1] == '\r') str[strlen(str) - 1] = '\0'; // Tira o '\r' se houver.
+}
