@@ -62,11 +62,11 @@ void cmdSelector() {
             break;
 
 
-//        case MINIMUM_SPANNIG_TREE:
-//            str = strtok(NULL, " ");
-//            number = atoi(str);
-//            deleteDataTable(filename, number);
-//            break;
+        case MINIMUM_SPANNIG_TREE:
+            strtok_custom(NULL, ' ');
+            str = strtok_custom(NULL, ' ');
+            minimumSpannigTreeCommand(filename, str);
+            break;
 //
 //        case AVAILABLE_PATHS:
 //            str = strtok(NULL, " ");
@@ -96,7 +96,7 @@ void createGraphCommand(char *filename) {
 }
 
 /**
- * Utiliza o algortimo de Dijkstra para encontrar, se existir, o menor caminho entre duas estações.
+ * Cria um grafo a partir de um arquivo de dados e utiliza o algortimo de Dijkstra para encontrar, se existir, o menor caminho entre duas estações.
  * Caso houver um caminho, este será printado conforme especificação do trabalho.
  * @param filename nome do arquivo binário de dados.
  * @param nomeOrigem nome da estação de partida.
@@ -158,6 +158,18 @@ void cyclicPathCommand(char *filename, char *nomeOrigem) {
             printf("%s", str);
             if (hasNextNode(&iter) == TRUE) printf(", ");
         }
+    }
+}
+
+void minimumSpannigTreeCommand(char *filename, char *nomeOrigem) {
+
+    graph *g;
+
+    if((g = createGraphFromBIN(filename, TRUE)) == NULL) showMessage(ERROR);
+    else {
+        graph mst;
+        primAlgorithm(*g, nomeOrigem, &mst);
+        printDFS(mst, nomeOrigem);
     }
 }
 

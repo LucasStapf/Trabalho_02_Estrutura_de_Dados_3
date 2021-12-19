@@ -431,6 +431,12 @@ int compareAresta(A a1, A a2) {
     } else return a1.distancia - a2.distancia;
 }
 
+int compareArestaVoid(void *a1, void *a2) {
+    A *aresta1 = a1;
+    A *aresta2 = a2;
+    return compareAresta(*aresta1, *aresta2);
+}
+
 void printDFSRecursion(graph g, char *nomeOrigem, enum COLOR *vertices) {
 
     int index = hasVertex(g, nomeOrigem);
@@ -501,11 +507,9 @@ void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
             aresta->distancia = adjacentVertex1->distancia;
 
             addElementLinkedList(&arestas, aresta);
-            sortLinkedList(&arestas, compareAresta);
+            sortLinkedList(&arestas, compareArestaVoid);
         }
     }
-
-//    printLinkedList(arestas, printAresta);
 
     int indexAtual = hasVertex(g, nomeOrigem);
     vertices[indexAtual].cor = BLACK;
