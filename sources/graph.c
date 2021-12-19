@@ -287,6 +287,8 @@ int dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *
 
     while (sizeOfS < g.size - 1) {
 
+
+
         linkedlist adjList = V[index]->verticesAdjacentes;
         iterator iter;
         createIterator(adjList, &iter);
