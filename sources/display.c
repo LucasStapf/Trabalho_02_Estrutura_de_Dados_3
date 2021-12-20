@@ -36,13 +36,6 @@ int showMessage(int cod) {
         case CYCLE_NOT_FOUND:
             printf("Nao existe um ciclo a partir da estacao de origem.");
             break;
-    // case REGISTER_NOT_FOUND:
-    //     printf("Registro inexistente.");
-    //     break;
-
-    // case FILE_NOT_CONSISTENT:
-    //     printf("Falha no processamento do arquivo.");
-    //     break;
 
     default:
         printf("Falha na execucao da funcionalidade.");
