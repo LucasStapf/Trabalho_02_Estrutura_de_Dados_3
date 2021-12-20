@@ -8,8 +8,6 @@
 */
 
 #include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "../headers/sort.h"
 #include "../headers/constants.h"
 
@@ -37,7 +35,7 @@ void sortLinkedList(linkedlist *l, int(*comparator)()) {
 
         for (int j = 0; j < l->size - 1 - i; j++) {
 
-            if(comparator(node->data, node->next->data) > 0) {
+            if (comparator(node->data, node->next->data) > 0) {
 
                 sorted = FALSE;
 
@@ -88,71 +86,6 @@ void sortArray(void **array, unsigned int size, int(*comparator)()) {
                 aux = array[j];
                 array[j] = array[j + 1];
                 array[j + 1] = aux;
-            }
-        }
-        if (sorted == TRUE) return;
-    }
-}
-
-// bubble otimizado
-void sortStringLinkedList(linkedlist *l) {
-
-    if (l == NULL || l->size == 0) return;
-
-    int sorted = TRUE;
-
-    node *prevNode, *node, *aux;
-
-    for (int i = 0; i < l->size - 1; i++) {
-
-        prevNode = NULL;
-        node = l->head;
-
-        for (int j = 0; j < l->size - 1 - i; j++) {
-
-            if(strcmp(node->data, node->next->data) > 0) {
-
-                sorted = FALSE;
-
-                aux = node->next;
-                node->next = node->next->next;
-                aux->next = node;
-
-                if (j == 0) l->head = prevNode = aux;
-                else prevNode->next = aux;
-
-                prevNode = aux;
-
-            } else {
-
-                prevNode = node;
-                node = node->next;
-
-            }
-        }
-
-        if (sorted == TRUE) return;
-    }
-}
-
-
-void sortStringArray(char strings[][MAX_SIZE_STR], int size) {
-
-    if (strings == NULL || size == 0) return;
-    int sorted = TRUE;
-
-
-    char strAux[MAX_SIZE_STR];
-
-    for (int i = 0; i < size - 1; i++) {
-        for (int j = 0; j < size - 1 - i; j++) {
-            if (strcmp(strings[j], strings[j + 1]) > 0) {
-
-                sorted = FALSE;
-                strcpy(strAux, strings[j]);
-
-                strcpy(strings[j], strings[j + 1]);
-                strcpy(strings[j + 1], strAux);
             }
         }
         if (sorted == TRUE) return;

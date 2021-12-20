@@ -82,6 +82,12 @@ node* addElementLinkedList(linkedlist *l, void *data) {
   }
 }
 
+/**
+ * Retorna o ponteiro para o nodo cujo indice na lista encadeada é o passado como argumento na função.
+ * @param l lista encadeada.
+ * @param index indice do nodo desejado.
+ * @return Retorna o ponteiro para o nodo do indíce desejado. Retorna NULL caso o indíce for inválido.
+ */
 node* getNodeLinkedList(linkedlist l, int index) {
     if (index < 0 || index >= l.size) return NULL;
     node *aux = l.head;

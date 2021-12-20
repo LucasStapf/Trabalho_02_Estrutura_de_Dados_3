@@ -23,8 +23,8 @@
  */
 int showMessage(int cod) {
 
-    switch(cod) {
-    
+    switch (cod) {
+
         case FILE_ERROR:
             printf("Falha na execução da funcionalidade.");
             break;
@@ -37,9 +37,9 @@ int showMessage(int cod) {
             printf("Nao existe um ciclo a partir da estacao de origem.");
             break;
 
-    default:
-        printf("Falha na execucao da funcionalidade.");
-        break;
+        default:
+            printf("Falha na execucao da funcionalidade.");
+            break;
     }
 
     return cod;

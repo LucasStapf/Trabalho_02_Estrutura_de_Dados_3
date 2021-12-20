@@ -12,29 +12,6 @@
 #include <string.h>
 #include "../headers/registers.h"
 
-
-/**
- * @brief Esta funcao calcula o tamanho de um registro de dados no arquivo binario.
- * OBS: O tamanho retornado nao eh o real tamanho do DataRegister em si, uma vez que a funcao
- * contabiliza a presenca FIELD_DELIMITER no DataRegister mesmo que o dr em si nao tenha o FIELD_DELIMITER.
- * O tamanho tambem nao leva em conta os campos 'removido' e 'tamanhoRegistro'.
- * 
- * @param dr Registro de dados que tera o tamanho calculado.
- * @return int Tamanho do registro de dados.
- * 
- * @author Leonardo Hannas de Carvalho Santos
- * @author Lucas Carvalho Freiberger Stapf 
- */
-int sizeOfRegister(DataRegister dr) {
-
-  int size = (2 + strlen(dr.nomeEstacao) + strlen(dr.nomeLinha)) * sizeof(char); // + 2: contabilizando o pipe '|'
-  size += (6 * sizeof(int));
-  size += sizeof(LONG_8);
-
-  return size;
-}
-
-
 /**
  * @brief Esta funcao compara dois registros de dados e verifica se os mesmos sao equivalentes. 
   Campos vazios e os campos 'removido', 'tamanhoRegistro' e 'proxLista' sao desconsiderados na comparacao.
@@ -99,38 +76,6 @@ void setEmptyDataRegister(DataRegister *dr) {
   dr->codEstIntegra = EMPTY_FIELD_INTEGER;
   strcpy(dr->nomeEstacao, EMPTY_FIELD_STRING);
   strcpy(dr->nomeLinha, EMPTY_FIELD_STRING);
-}
-
-
-/**
- * @brief Esta funcao preenche um campo do DataRegister passado com base no nome do campo.
- * OBS:  Tanto o nome quando o valor do campo devem ser do tipo string (char*).
- * 
- * @param dr Registro que tera o campo atualizado.
- * @param field Nome do campo a ser atualizado.
- * @param value Valor do campo.
- * 
- * @author Leonardo Hannas de Carvalho Santos
- * @author Lucas Carvalho Freiberger Stapf
- */
-void fillFieldDataRegister(DataRegister *dr, char *field, char *value) {
-
-  if (strcmp("codEstacao", field) == 0) // Nao pode ser nulo
-    dr->codEstacao = atoi(value);
-  else if (strcmp("nomeEstacao", field) == 0) // Nao pode ser nulo
-    strcpy(dr->nomeEstacao, value);
-  else if (strcmp("codLinha", field) == 0)
-    dr->codLinha = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
-  else if (strcmp("codProxEstacao", field) == 0)
-    dr->codProxEstacao = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
-  else if (strcmp("distProxEstacao", field) == 0)
-    dr->distProxEstacao = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
-  else if (strcmp("codLinhaIntegra", field) == 0)
-    dr->codLinhaIntegra = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
-  else if (strcmp("codEstIntegra", field) == 0)
-    dr->codEstIntegra = atoi(value) != 0 ? atoi(value) : NULL_FIELD_INTEGER;
-  else if (strcmp("nomeLinha", field) == 0)
-    strcmp(value, "NULO") != 0 ? strcpy(dr->nomeLinha, value) : strcpy(dr->nomeLinha, NULL_FIELD_STRING);
 }
 
 
