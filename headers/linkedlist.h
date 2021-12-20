@@ -34,7 +34,7 @@ int hasNextNode(iterator *i);
 
 void createLinkedList(linkedlist *l);
 void deleteLinkedList(linkedlist *l);
-int addElementLinkedList(linkedlist *l, void *data);
+node* addElementLinkedList(linkedlist *l, void *data);
 int addElementFirstLinkedList(linkedlist *l, void *data);
 node* getNodeLinkedList(linkedlist l, int index);
 void removeNodeLinkedList(linkedlist *l, node *n);
@@ -47,5 +47,6 @@ void printStringLinkedList(linkedlist l);
 //void sortStringLinkedList(linkedlist *l);
 
 void printLinkedList(linkedlist l, void (*print)());
+void copyLinkedList(linkedlist *l_destination, linkedlist *l_origin);
 
 #endif 

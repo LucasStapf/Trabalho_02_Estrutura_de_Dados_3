@@ -56,12 +56,12 @@ void deleteLinkedList(linkedlist *l) {
  * @author Leonardo Hannas de Carvalho Santos
  * @author Lucas Carvalho Freiberger Stapf
  */
-int addElementLinkedList(linkedlist *l, void *data) {
+node* addElementLinkedList(linkedlist *l, void *data) {
 
-  if(l == NULL || data == NULL) return FALSE;
+  if(l == NULL || data == NULL) return NULL;
 
   node *n = malloc(sizeof(node));
-  if(n == NULL) return FALSE;
+  if(n == NULL) return NULL;
 
   n->data = data;
   n->next = NULL;
@@ -70,7 +70,7 @@ int addElementLinkedList(linkedlist *l, void *data) {
 
     l->head = n;
     l->size++;
-    return TRUE;
+    return n;
   
   } else {
 
@@ -78,7 +78,7 @@ int addElementLinkedList(linkedlist *l, void *data) {
     while (aux->next != NULL) aux = aux->next;
     aux->next = n;
     l->size++;
-    return TRUE;
+    return n;
   }
 }
 
@@ -247,5 +247,18 @@ void printLinkedList(linkedlist l, void (*print)()) {
     while (aux != NULL) {
         print(aux->data);
         aux = aux->next;
+    }
+}
+
+void copyLinkedList(linkedlist *l_destination, linkedlist *l_origin) {
+
+    iterator iter;
+    createIterator(*l_origin, &iter);
+
+    createLinkedList(l_destination);
+
+    while (hasNextNode(&iter) == TRUE) {
+        node *n = getNextNode(&iter);
+        addElementLinkedList(l_destination, n->data);
     }
 }

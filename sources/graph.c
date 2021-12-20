@@ -480,13 +480,13 @@ void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
     linkedlist arestas;
     createLinkedList(&arestas);
 
-    for(int i = 0; i < g.size; i++) { // criação dos vértices
+    for (int i = 0; i < g.size; i++) { // criação dos vértices
         vertex *vertex1 = g.vertices[i];
         vertices[i].nome = vertex1->nomeEstacao;
         vertices[i].cor = WHITE;
     }
 
-    for(int i = 0; i < g.size; i++) { // criação das arestas
+    for (int i = 0; i < g.size; i++) { // criação das arestas
 
         vertex *vertex1 = g.vertices[i];
         linkedlist adjV = vertex1->verticesAdjacentes;
@@ -545,5 +545,88 @@ void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
             break;
         }
     }
+}
+
+int comparePaths(void *path1, void *path2) {
+
+    linkedlist *p1 = path1;
+    linkedlist *p2 = path2;
+
+    if (p1->size > p2->size) return 1;
+    else if (p1->size < p2->size) return -1;
+
+    iterator i1, i2;
+    createIterator(*p1, &i1);
+    createIterator(*p2, &i2);
+
+    while (hasNextNode(&i1) == TRUE) {
+
+        node *n1 = getNextNode(&i1);
+        node *n2 = getNextNode(&i2);
+
+        VD *vd1 = n1->data;
+        VD *vd2 = n2->data;
+
+        int ret = strcmp(vd1->nomeVertice, vd2->nomeVertice);
+        if (ret > 0) return 1;
+        else if (ret < 0) return -1;
+    }
+
+    return 0;
+}
+
+void findAllPathsRecursion(graph g, char *nomeOrigem, char *nomeDestino, int *isVisited, linkedlist *caminho, linkedlist *caminhos) {
+
+    if (strcmp(nomeOrigem, nomeDestino) == 0) {
+        linkedlist *l = malloc(sizeof(linkedlist));
+        copyLinkedList(l, caminho);
+        addElementLinkedList(caminhos, (void*) l);
+        return;
+    }
+
+    int index = hasVertex(g, nomeOrigem);
+    isVisited[index] = TRUE;
+
+    vertex *vOrigem = g.vertices[index];
+
+    iterator iter;
+    createIterator(vOrigem->verticesAdjacentes, &iter);
+
+    while (hasNextNode(&iter) == TRUE) {
+
+        node *n = getNextNode(&iter);
+        adjacentVertex *adjV = n->data;
+        int indexAdj = hasVertex(g, adjV->nomeProxEstacao);
+
+        if (isVisited[indexAdj] == FALSE) {
+
+            VD *vd = malloc(sizeof(VD));
+            vd->nomeVertice = adjV->nomeProxEstacao;
+            vd->distancia = adjV->distancia;
+
+            node *nAdd = addElementLinkedList(caminho, (void*) vd);
+            findAllPathsRecursion(g, vd->nomeVertice, nomeDestino, isVisited, caminho, caminhos);
+            removeNodeLinkedList(caminho, nAdd);
+        }
+    }
+
+    isVisited[index] = FALSE;
+}
+
+void findAllPaths(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminhos) {
+
+    int isVisited[g.size];
+    for (int i = 0; i < g.size; i++) isVisited[i] = FALSE;
+
+    linkedlist caminho;
+    createLinkedList(&caminho);
+
+    VD *vdOrigem = malloc(sizeof(VD));
+    vdOrigem->nomeVertice = nomeOrigem;
+    vdOrigem->distancia = 0;
+
+    addElementLinkedList(&caminho, (void*) vdOrigem);
+
+    findAllPathsRecursion(g, nomeOrigem, nomeDestino, isVisited, &caminho, caminhos);
 }
 

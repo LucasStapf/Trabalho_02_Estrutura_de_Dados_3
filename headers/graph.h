@@ -13,6 +13,10 @@
 #include "constants.h"
 #include "linkedlist.h"
 
+typedef struct VD {
+    char *nomeVertice;
+    int distancia;
+} VD;
 
 typedef struct adjacentVertex {
     char nomeProxEstacao[MAX_SIZE_STR];
@@ -24,7 +28,6 @@ typedef struct vertex {
     char nomeEstacao[MAX_SIZE_STR];
     linkedlist verticesAdjacentes;
 } vertex;
-
 
 typedef struct graph {
     unsigned int maxSize;
@@ -59,5 +62,8 @@ void dfsAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *cami
 void primAlgorithm(graph g, char *nomeOrigem, graph *mst);
 
 void printDFS(graph g, char *nomeOrigem);
+
+int comparePaths(void *path1, void *path2);
+void findAllPaths(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminhos);
 
 #endif
