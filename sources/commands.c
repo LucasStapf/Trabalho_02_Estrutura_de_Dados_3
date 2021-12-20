@@ -129,7 +129,11 @@ void shortestPathCommand(char *filename, char *nomeOrigem, char *nomeDestino) {
     }
 }
 
-
+/**
+ *
+ * @param filename
+ * @param nomeOrigem
+ */
 void cyclicPathCommand(char *filename, char *nomeOrigem) {
 
     graph *g;
@@ -160,6 +164,11 @@ void cyclicPathCommand(char *filename, char *nomeOrigem) {
     }
 }
 
+/**
+ *
+ * @param filename
+ * @param nomeOrigem
+ */
 void minimumSpannigTreeCommand(char *filename, char *nomeOrigem) {
 
     graph *g;
@@ -172,6 +181,12 @@ void minimumSpannigTreeCommand(char *filename, char *nomeOrigem) {
     }
 }
 
+/**
+ *
+ * @param filename
+ * @param nomeOrigem
+ * @param nomeDestino
+ */
 void allAvailablePathsCommand(char *filename, char *nomeOrigem, char *nomeDestino) {
 
     graph *g;

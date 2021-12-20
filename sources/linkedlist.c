@@ -95,6 +95,14 @@ node* getNodeLinkedList(linkedlist l, int index) {
     return aux;
 }
 
+/**
+ * Verifica se a lista encadeada possui um determinado dado armazenado.
+ * @param l lista encadeada.
+ * @param data dado usado na verificação.
+ * @param comparator função utilizada na comparação dos dados armazenados.
+ * @return Retorna o indíce do primeiro nodo que armazena o dado passado da lista. Retorna -1 caso o dado não
+ * esteja presente na lista.
+ */
 int hasDataLinkedList(linkedlist l, void *data, int (*comparator)()) {
     node *aux = l.head;
     for (int i = 0; i < l.size; i++) {
@@ -104,7 +112,13 @@ int hasDataLinkedList(linkedlist l, void *data, int (*comparator)()) {
     return -1; // Elemento não encontrado.
 }
 
-
+/**
+ *
+ * @param l
+ * @param n
+ * @param comparator
+ * @return
+ */
 int hasNodeLinkedList(linkedlist l, node n, int (*comparator)()) {
     node *aux = l.head;
     for (int i = 0; i < l.size; i++) {

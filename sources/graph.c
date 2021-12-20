@@ -107,10 +107,11 @@ int hasVertex(graph g, char *nomeEstacao) {
 }
 
 /**
- * @brief Verifica se, dado um nome de estacao, tal estacao pertence a uma lista de adjacencias do grafo
- * @param v Vertice
- * @param nomeProxEstacao
- * @return
+ * @brief Verifica se, dado um nome de estacao, tal estacao pertence a lista de adjacencias do vertice "v" no grafo
+ * @param v Vertice pertencente ao grafo
+ * @param nomeProxEstacao Nome da estacao a ser procurada na lista de adjacencias do vertice "v"
+ * @return Posicao "i" da estacao na lista de adjacencias do vertice "v" do grafo, caso a estacao procurada for
+ *         encontrada. Caso contrario, retorna -1.
  */
 int hasAdjVertex(vertex v, char *nomeProxEstacao) {
     node *aux = v.verticesAdjacentes.head;
@@ -123,10 +124,11 @@ int hasAdjVertex(vertex v, char *nomeProxEstacao) {
 }
 
 /**
- * @brief
- * @param g
- * @param maxSize
- * @return
+ * @brief Aloca a memoria necessaria para a criacao do grafo
+ * @param g Ponteiro para o grafo a ser criado
+ * @param maxSize Numero maximo de vertices do grafo
+ * @return ERROR caso nao tenha sido possivel alocar a memoria,
+ *         SUCCESS caso a alocacao de memoria tenha sido sucedida
  */
 int createGraph(graph *g, int maxSize) {
 
@@ -140,6 +142,17 @@ int createGraph(graph *g, int maxSize) {
     return SUCCESS;
 }
 
+/**
+ *
+ * @param g Ponteiro para o grafo a ser criado
+ * @param verticeOrigem Nome da estacao de origem
+ * @param verticeDestino Nome da estacao de destino
+ * @param distancia Distancia entre a estacao de origem e a estacao de destino
+ * @param nomeLinha Nome da linha responsavel por ligar as estacoes de destino e origem
+ * @param directedGraph Variavel booleana para indicar se a aresta a ser adicionada eh (ou nao) direcional
+ * @return ERROR caso a insercao da aresta nao tenha sido sucedida,
+ *         SUCCESS caso contrario
+ */
 int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distancia, char *nomeLinha, int directedGraph) {
 
     if (g == NULL) return ERROR;
@@ -179,6 +192,8 @@ int insertEdge(graph *g, char *verticeOrigem, char *verticeDestino, int distanci
     }
 
     if (directedGraph == FALSE) insertEdge(g, verticeDestino, verticeOrigem, distancia, nomeLinha, TRUE);
+
+    return SUCCESS;
 }
 
 /**
@@ -219,14 +234,23 @@ void printAdjVertex(adjacentVertex adjV) {
     printStringLinkedList(adjV.nomesLinhas);
 }
 
-
+/**
+ *
+ * @param nomeEstacao
+ * @return
+ */
 vertex *createVertex(char *nomeEstacao) {
     vertex *v = malloc(sizeof(vertex));
     strcpy(v->nomeEstacao, nomeEstacao);
     createLinkedList(&v->verticesAdjacentes);
     return v;
 }
-
+/**
+ *
+ * @param nomeEstacao
+ * @param distancia
+ * @return
+ */
 adjacentVertex *createAdjcentVertex(char *nomeEstacao, int distancia) {
     adjacentVertex *adjV = malloc(sizeof(adjacentVertex));
     strcpy(adjV->nomeProxEstacao, nomeEstacao);
@@ -319,7 +343,15 @@ graph* createGraphFromBIN(char *filename, int directedGraph) {
     return g;
 }
 
-
+/**
+ *
+ * @param g
+ * @param nomeOrigem
+ * @param nomeDestino
+ * @param caminho
+ * @param distanciaTotal
+ * @return
+ */
 int dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminho, int *distanciaTotal) {
 
     vertex **S = malloc(sizeof(vertex*) * g.size);
@@ -398,6 +430,15 @@ int dijkstraAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *
     return SUCCESS;
 }
 
+/**
+ *
+ * @param g
+ * @param vOrigem
+ * @param vDestino
+ * @param vertices
+ * @param est
+ * @return
+ */
 int dfsRecursion(graph g, vertex *vOrigem, vertex *vDestino, enum COLOR *vertices, estruturaAux *est) {
 
     int i = hasVertex(g, vOrigem->nomeEstacao);
@@ -430,6 +471,14 @@ int dfsRecursion(graph g, vertex *vOrigem, vertex *vDestino, enum COLOR *vertice
     return FALSE;
 }
 
+/**
+ *
+ * @param g
+ * @param nomeOrigem
+ * @param nomeDestino
+ * @param caminho
+ * @param distanciaTotal
+ */
 void dfsAlgorithm(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminho, int *distanciaTotal) {
 
     createLinkedList(caminho);
@@ -477,10 +526,20 @@ typedef struct { // aresta
     int distancia;
 }A;
 
+/**
+ *
+ * @param a
+ */
 void printAresta(A a) {
     printf(" %s | %s | %d \n", a.v1->nome, a.v2->nome, a.distancia);
 }
 
+/**
+ *
+ * @param a1
+ * @param a2
+ * @return
+ */
 int compareAresta(A a1, A a2) {
     if (a1.distancia == a2.distancia) {
         if (strcmp(a1.v1->nome, a2.v1->nome) == 0) {
@@ -489,12 +548,24 @@ int compareAresta(A a1, A a2) {
     } else return a1.distancia - a2.distancia;
 }
 
+/**
+ *
+ * @param a1
+ * @param a2
+ * @return
+ */
 int compareArestaVoid(void *a1, void *a2) {
     A *aresta1 = a1;
     A *aresta2 = a2;
     return compareAresta(*aresta1, *aresta2);
 }
 
+/**
+ *
+ * @param g
+ * @param nomeOrigem
+ * @param vertices
+ */
 void printDFSRecursion(graph g, char *nomeOrigem, enum COLOR *vertices) {
 
     int index = hasVertex(g, nomeOrigem);
@@ -521,6 +592,11 @@ void printDFSRecursion(graph g, char *nomeOrigem, enum COLOR *vertices) {
     vertices[index] = BLACK;
 }
 
+/**
+ *
+ * @param g
+ * @param nomeOrigem
+ */
 void printDFS(graph g, char *nomeOrigem) {
 
     enum COLOR *vertices = malloc(sizeof(enum COLOR) * g.size);
@@ -529,6 +605,12 @@ void printDFS(graph g, char *nomeOrigem) {
     printDFSRecursion(g, nomeOrigem, vertices);
 }
 
+/**
+ *
+ * @param g
+ * @param nomeOrigem
+ * @param mst
+ */
 void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
 
     createGraph(mst, g.size);
@@ -605,6 +687,12 @@ void primAlgorithm(graph g, char *nomeOrigem, graph *mst) {
     }
 }
 
+/**
+ *
+ * @param path1
+ * @param path2
+ * @return
+ */
 int comparePaths(void *path1, void *path2) {
 
     linkedlist *p1 = path1;
@@ -633,6 +721,15 @@ int comparePaths(void *path1, void *path2) {
     return 0;
 }
 
+/**
+ *
+ * @param g
+ * @param nomeOrigem
+ * @param nomeDestino
+ * @param isVisited
+ * @param caminho
+ * @param caminhos
+ */
 void findAllPathsRecursion(graph g, char *nomeOrigem, char *nomeDestino, int *isVisited, linkedlist *caminho, linkedlist *caminhos) {
 
     if (strcmp(nomeOrigem, nomeDestino) == 0) {
@@ -671,6 +768,13 @@ void findAllPathsRecursion(graph g, char *nomeOrigem, char *nomeDestino, int *is
     isVisited[index] = FALSE;
 }
 
+/**
+ *
+ * @param g
+ * @param nomeOrigem
+ * @param nomeDestino
+ * @param caminhos
+ */
 void findAllPaths(graph g, char *nomeOrigem, char *nomeDestino, linkedlist *caminhos) {
 
     int isVisited[g.size];
