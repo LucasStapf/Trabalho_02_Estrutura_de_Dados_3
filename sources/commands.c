@@ -223,7 +223,7 @@ void allAvailablePathsCommand(char *filename, char *nomeOrigem, char *nomeDestin
                 else printf("%s", vd->nomeVertice);
             }
 
-            if (hasNextNode(&iter) == TRUE) printf("\n\n");
+            printf("\n\n");
         }
     }
 }
