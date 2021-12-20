@@ -40,17 +40,12 @@
 
 // Definidos a partir do SEEK_SET.
 #define SEEK_STATUS 0
-#define SEEK_TOPO_LISTA 1
-#define SEEK_NRO_ESTACOES 9
-#define SEEK_NRO_PARES_ESTACOES 13
 #define SEEK_FIRST_REGISTER 17
 
 // Constantes para preencher os campos dos DataRegister.
 #define NULL_FIELD_INTEGER -1
-#define NULL_FIELD_STRING ""
 #define EMPTY_FIELD_INTEGER -2
 #define EMPTY_FIELD_STRING "#"
-#define MEMORY_TRASH '$'
 
 #define FIELD_DELIMITER '|'
 

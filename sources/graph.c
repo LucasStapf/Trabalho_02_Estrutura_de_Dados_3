@@ -26,22 +26,56 @@ enum COLOR {
     BLACK
 };
 
+/**
+ * @brief Esta funcao compara duas strings
+ * @param str1 Primeira string
+ * @param str2 Segunda string
+ * @return 0 caso as strings comparadas forem iguais,
+ *         > 0 caso str1 > str2,
+ *         < 0 caso str1 < str2
+ */
 int compareStrVoid(void *str1, void *str2) {
     char *STR1 = str1;
     char *STR2 = str2;
     return strcmp(STR1, STR2);
 }
 
+/**
+ * @brief Compara os nomes de dois vertices de um grafo
+ * @param v1 Ponteiro para o primeiro vertice
+ * @param v2 Ponteiro para o segundo vertice
+ * @return 0 caso os nomes das strings comparadas forem iguais,
+ *         > 0 caso v1.nomeEstacao > v2.nomeEstacao,
+ *         < 0 caso v1.nomeEstacao < v2.nomeEstacao
+ */
 int vertexCompareVoid(void *v1, void *v2) {
     vertex *V1 = v1;
     vertex *V2 = v2;
     return vertexCompare(*V1, *V2);
 }
 
+/**
+ * @brief Compara os nomes de dois vertices de um grafo
+ * @param v1 Vertice do grafo
+ * @param v2 Vertice do grafo
+ * @return 0 caso os nomes das strings comparadas forem iguais,
+ *         > 0 caso v1.nomeEstacao > v2.nomeEstacao,
+ *         < 0 caso v1.nomeEstacao < v2.nomeEstacao
+ */
 int vertexCompare(vertex v1, vertex v2) {
     return strcmp(v1.nomeEstacao, v2.nomeEstacao);
 }
 
+/**
+ * @brief Compara os nomes de dois de uma lista de adjacencias em um grafo
+ *
+ * @param v1 Vertice de uma lista de adjacencia do grafo
+ * @param v2 Vertice de uma lista de adjacencia do grafo
+ *
+ * @return 0 caso os nomes das strings comparadas forem iguais,
+ *         > 0 caso v1.nomeEstacao > v2.nomeEstacao,
+ *         < 0 caso v1.nomeEstacao < v2.nomeEstacao
+ */
 int adjVertexCompareVoid(void *v1, void *v2) {
 
     adjacentVertex *V1 = v1;
@@ -49,15 +83,35 @@ int adjVertexCompareVoid(void *v1, void *v2) {
     return adjVertexCompare(*V1, *V2);
 }
 
+/**
+ * @brief Compara os nomes de dois de uma lista de adjacencias em um grafo
+ * @param v1 Vertice de uma lista de adjacencia do grafo
+ * @param v2 Vertice de uma lista de adjacencia do grafo
+ * @return 0, caso os nomes das strings comparadas forem iguais
+ *         > 0, caso v1.nomeEstacao > v2.nomeEstacao
+ *         < 0, caso v1.nomeEstacao < v2.nomeEstacao
+ */
 int adjVertexCompare(adjacentVertex v1, adjacentVertex v2) {
     return strcmp(v1.nomeProxEstacao, v2.nomeProxEstacao);
 }
 
+/**
+ * @brief Verfica se, dado um nome de estacao, tal estacao pertence ao grafo
+ * @param g Grafo
+ * @param nomeEstacao String contendo o nome da estacao de metro
+ * @return Posicao "i" do vertice do grafo, caso a estacao procurada for encontrada. Caso contrario, retorna -1.
+ */
 int hasVertex(graph g, char *nomeEstacao) {
     for (int i = 0; i < g.size; i++) if (strcmp(g.vertices[i]->nomeEstacao, nomeEstacao) == 0) return i;
     return -1;
 }
 
+/**
+ * @brief Verifica se, dado um nome de estacao, tal estacao pertence a uma lista de adjacencias do grafo
+ * @param v Vertice
+ * @param nomeProxEstacao
+ * @return
+ */
 int hasAdjVertex(vertex v, char *nomeProxEstacao) {
     node *aux = v.verticesAdjacentes.head;
     for (int i = 0; i < v.verticesAdjacentes.size; i++) {
@@ -68,6 +122,12 @@ int hasAdjVertex(vertex v, char *nomeProxEstacao) {
     return -1;
 }
 
+/**
+ * @brief
+ * @param g
+ * @param maxSize
+ * @return
+ */
 int createGraph(graph *g, int maxSize) {
 
     g->vertices = malloc(sizeof(vertex*) * maxSize);
