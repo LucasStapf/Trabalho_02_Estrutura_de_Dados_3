@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include "../headers/display.h"
 #include "../headers/commands.h"
-#include "../headers/graph.h"
+#include "../headers/sort.h"
 
 
 /**
@@ -54,7 +54,7 @@ void cmdSelector() {
             strcpy(nomeDestino, str);
             shortestPathCommand(filename, nomeOrigem, nomeDestino);
             break;
-//
+
         case CYCLIC_PATH:
             strtok_custom(NULL, ' ');
             str = strtok_custom(NULL, ' ');
@@ -69,19 +69,15 @@ void cmdSelector() {
             break;
 
         case ALL_AVAILABLE_PATHS:
+            strtok_custom(NULL, ' ');
+            char strOrigem[MAX_SIZE_STR], strDestino[MAX_SIZE_STR];
+            str = strtok_custom(NULL, ' ');
+            strcpy(strOrigem, str);
+            strtok_custom(NULL, ' ');
+            str = strtok_custom(NULL, ' ');
+            strcpy(strDestino, str);
+            allAvailablePathsCommand(filename, strOrigem, strDestino);
             break;
-//
-//        case AVAILABLE_PATHS:
-//            str = strtok(NULL, " ");
-//            number = atoi(str);
-//            insertDataTable(filename, number);
-//            break;
-//
-//        case updateData:
-//            str = strtok(NULL, " ");
-//            number = atoi(str);
-//            updateDataTable(filename, number);
-//            break;
 
         default:
             break;
@@ -173,6 +169,62 @@ void minimumSpannigTreeCommand(char *filename, char *nomeOrigem) {
         graph mst;
         primAlgorithm(*g, nomeOrigem, &mst);
         printDFS(mst, nomeOrigem);
+    }
+}
+
+void allAvailablePathsCommand(char *filename, char *nomeOrigem, char *nomeDestino) {
+
+    graph *g;
+
+    if((g = createGraphFromBIN(filename, TRUE)) == NULL) showMessage(ERROR);
+    else {
+
+
+        linkedlist caminhos;
+        createLinkedList(&caminhos);
+
+        findAllPaths(*g, nomeOrigem, nomeDestino, &caminhos);
+
+        if (caminhos.size == 0) {
+            showMessage(PATH_NOT_FOUND);
+            return;
+        }
+
+        sortLinkedList(&caminhos, comparePaths);
+
+        iterator iter;
+        createIterator(caminhos, &iter);
+
+        while (hasNextNode(&iter) == TRUE) {
+
+            node *n = getNextNode(&iter);
+            linkedlist *l = n->data;
+
+            iterator iter2;
+
+            printf("Numero de estacoes que serao percorridas: %d\n", l->size - 1);
+            int distancia = 0;
+
+            createIterator(*l, &iter2);
+            while (hasNextNode(&iter2) == TRUE) {
+                node *n2 = getNextNode(&iter2);
+                VD *vd = n2->data;
+                distancia += vd->distancia;
+            }
+
+            printf("Distancia que sera percorrida: %d\n", distancia);
+
+            createIterator(*l, &iter2);
+            while (hasNextNode(&iter2) == TRUE) {
+
+                node *n2 = getNextNode(&iter2);
+                VD *vd = n2->data;
+                if (hasNextNode(&iter2) == TRUE) printf("%s, ", vd->nomeVertice);
+                else printf("%s", vd->nomeVertice);
+            }
+
+            if (hasNextNode(&iter) == TRUE) printf("\n\n");
+        }
     }
 }
 

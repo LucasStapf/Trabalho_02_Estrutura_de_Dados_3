@@ -30,8 +30,7 @@ void createGraphCommand(char *filename);
 void shortestPathCommand(char *filename, char *nomeOrigem, char *nomeDestino);
 void cyclicPathCommand(char *filename, char *nomeOrigem);
 void minimumSpannigTreeCommand(char *filename, char *nomeOrigem);
-
-//void binarioNaTela(char *nomeArquivoBinario);
+void allAvailablePathsCommand(char *filename, char *nomeOrigem, char *nomeDestino);
 
 char* strtok_custom(char* str, char delimitador);
 void eraseCRLF(char *str);
