@@ -1,5 +1,5 @@
 /**
-* Trabalho 01 - Estrutura de Dados III
+* Trabalho 02 - Estrutura de Dados III
 *
 * Integrantes do grupo:
 * 
@@ -44,10 +44,8 @@ typedef struct {
 
 } DataRegister;
 
-int sizeOfRegister(DataRegister dr);
 int compareRegister(DataRegister dr1, DataRegister dr2);
 void setEmptyDataRegister(DataRegister *dr);
-void fillFieldDataRegister(DataRegister *dr, char *field, char *value);
 void copyDataRegister(DataRegister *dr_destino, DataRegister *dr_origem);
 void printRegister(DataRegister dr);
 

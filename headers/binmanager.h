@@ -18,7 +18,6 @@ void readHeaderRegisterBIN(FILE *f, HeaderRegister *hr);
 int readDataRegisterBIN(FILE *f, DataRegister *dr);
 int findDataRegisterBIN(FILE *f, DataRegister *dr_search, DataRegister *dr_return);
 
-int printFileBIN(char *binName);
 int statusFileBIN(HeaderRegister hr);
 
 #endif

@@ -12,9 +12,7 @@
 #include <string.h>
 #include <limits.h>
 #include "../headers/binmanager.h"
-#include "../headers/registers.h"
 #include "../headers/graph.h"
-#include "../headers/linkedlist.h"
 #include "../headers/sort.h"
 
 typedef struct estruturaAux {
