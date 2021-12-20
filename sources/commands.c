@@ -67,6 +67,9 @@ void cmdSelector() {
             str = strtok_custom(NULL, ' ');
             minimumSpannigTreeCommand(filename, str);
             break;
+
+        case ALL_AVAILABLE_PATHS:
+            break;
 //
 //        case AVAILABLE_PATHS:
 //            str = strtok(NULL, " ");
